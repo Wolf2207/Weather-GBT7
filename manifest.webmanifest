@@ -1,12 +1,12 @@
 {
   "name": "Weather Overall",
   "short_name": "Weather",
-  "description": "Finale Premium-Wetter-App mit Favoritenübernahme.",
-  "start_url": "./?final=2",
+  "description": "Premium-Wetter-App mit weltweiter Suche, Favoriten, Modellvergleich, Radar und dynamischem Alpenpanorama.",
+  "start_url": "./?release=perfect",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#12395a",
-  "theme_color": "#12395a",
+  "background_color": "#123858",
+  "theme_color": "#123858",
   "orientation": "any",
   "icons": [
     {
