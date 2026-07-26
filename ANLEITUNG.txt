@@ -1,31 +1,32 @@
-WEATHER OVERALL V7
+WEATHER OVERALL V8 – NEU AUFGEBAUTES PREMIUM-FRONTEND
 
-ECHTE FUNKTIONSVERSION – kein Mockup.
+V8 ist eine echte Funktionsversion, kein Bild und kein Mockup.
 
-NEU:
-- Alpenfoto als fest integrierter Hintergrund
-- wetterabhängige Licht- und Farbstimmung:
-  klar, bewölkt, Regen, Gewitter, Schnee, Nebel und Nacht
-- Regen-, Schnee-, Stern-, Mond- und Gewittereffekte bleiben dynamisch
-- dunkle, transparente Glasflächen wie im V7-Entwurf
-- breiteres Dashboard für iPad und Desktop
-- zusätzliche Karte des gewählten Orts
-- Wettergrafik aus deinem Bild als App-Symbol
-- alle Funktionen aus V6 bleiben erhalten:
-  Ortssuche, GPS, Favoriten, 24 Stunden, 7 Tage, Modellvergleich,
-  Luftqualität, Sonne/Mond, Stundendetails und Niederschlagsradar
+Enthalten:
+- komplett neu aufgebautes Dashboard
+- Alpenfoto als dynamischer Hintergrund
+- Wettereffekte für Bewölkung, Regen, Gewitter, Schnee, Nebel und Nacht
+- Ortssuche mit Vorschlägen
+- GPS-Standort
+- Favoriten mit Sortieren und Löschen
+- 24-Stunden-Prognose mit anklickbaren Stundendetails
+- 7-Tage-Prognose
+- ECMWF-, ICON- und GFS-Modellvergleich
+- Luftqualität, PM2.5 und Ozon
+- Sonne, Mondphase und Tageslänge
+- Live-Niederschlagsradar
+- separate Karte des gewählten Orts
+- iPad-, iPhone- und Desktop-Layout
 
-GITHUB-UPLOAD:
-Für V7 bitte ALLE folgenden Dateien hochladen bzw. ersetzen:
+GITHUB:
+Alle Dateien aus dieser ZIP gemeinsam in das Repository Weather-All hochladen:
 - index.html
 - alpen-hintergrund.jpg
 - icon-180.png
 - icon-512.png
 - manifest.webmanifest
 
-Am einfachsten:
-Den Inhalt der ZIP entpacken und alle Dateien gemeinsam in das Repository
-Weather-All hochladen. Danach Commit changes wählen.
+Bestehende Dateien mit gleichem Namen ersetzen und Commit changes wählen.
 
-APP:
-https://wolf2207.github.io/Weather-All/
+Nach dem Upload zum Testen:
+https://wolf2207.github.io/Weather-All/?v=8

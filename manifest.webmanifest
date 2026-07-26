@@ -1,11 +1,11 @@
 {
   "name": "Weather Overall",
   "short_name": "Weather",
-  "description": "Weltweite Wetterprognosen, Modellvergleich, Radar und Luftqualität.",
+  "description": "Weltweite Wetterprognosen, Modellvergleich, Radar, Karte und Luftqualität.",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#071629",
-  "theme_color": "#071629",
+  "background_color": "#06131f",
+  "theme_color": "#06131f",
   "orientation": "any",
   "icons": [
     {
