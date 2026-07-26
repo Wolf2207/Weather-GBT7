@@ -1,8 +1,9 @@
 {
   "name": "Weather Overall",
   "short_name": "Weather",
-  "description": "Weltweite Wetterprognosen, Modellvergleich, Radar, Karte und Luftqualität.",
-  "start_url": "./",
+  "description": "Premium-Wetterdashboard mit weltweiten Prognosen, Modellvergleich, Radar, Luftqualität und dynamischem Alpenpanorama.",
+  "start_url": "./?app=final",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#06131f",
   "theme_color": "#06131f",

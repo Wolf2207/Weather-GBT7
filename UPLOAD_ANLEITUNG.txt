@@ -1,0 +1,21 @@
+WEATHER OVERALL – FINAL CANDIDATE
+
+KORRIGIERT:
+- Der Alpenhintergrund liegt jetzt sichtbar hinter dem Dashboard.
+- Die Glasflächen wurden transparenter und heller abgestimmt.
+- Das fehlende Web-App-Manifest wurde neu erstellt.
+- Lokale Dateien verwenden eine neue Cache-Kennung.
+
+BITTE GEMEINSAM HOCHLADEN:
+1. index.html
+2. alpen-hintergrund.jpg
+3. icon-180.png
+4. icon-512.png
+5. manifest.webmanifest
+
+Vorhandene Dateien im Repository Weather-All ersetzen und Commit changes wählen.
+
+DANACH ÖFFNEN:
+https://wolf2207.github.io/Weather-All/?app=final
+
+UPLOAD_ANLEITUNG.txt wird für die App nicht benötigt.

@@ -4,15 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#06131f">
-<title>Weather Overall</title>
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="icon-180.png">
+<title>Weather Overall – Final Candidate</title>
+<link rel="manifest" href="manifest.webmanifest?v=final">
+<link rel="apple-touch-icon" href="icon-180.png?v=final">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
  integrity="sha256-p4NxAoJBhIINfQ3ynQfQbM6fPF4T6M8S1QZyQx0uO+6M=" crossorigin="">
 <style>
 :root{
-  --glass:rgba(4,15,24,.68);
-  --glass2:rgba(255,255,255,.075);
+  --glass:rgba(4,15,24,.46);
+  --glass2:rgba(255,255,255,.105);
   --line:rgba(255,255,255,.22);
   --muted:rgba(255,255,255,.74);
   --text:#fff;
@@ -30,15 +30,19 @@ button{cursor:pointer}
 .hidden{display:none!important}
 
 #backdrop{
-  position:fixed;inset:0;z-index:-5;
-  background:url("alpen-hintergrund.jpg") center center/cover no-repeat;
+  position:fixed;inset:0;z-index:0;
+  background-image:url("alpen-hintergrund.jpg?v=final");
+  background-position:center center;
+  background-size:cover;
+  background-repeat:no-repeat;
   transform:scale(1.015);
 }
+.shell{position:relative;z-index:5}
 #backdrop:before{
   content:"";position:absolute;inset:0;
   background:
-    linear-gradient(90deg,rgba(0,6,13,.58),rgba(0,8,16,.16) 48%,rgba(0,5,12,.54)),
-    linear-gradient(180deg,rgba(0,7,15,.08),rgba(0,8,15,.36));
+    linear-gradient(90deg,rgba(0,6,13,.33),rgba(0,8,16,.035) 48%,rgba(0,5,12,.28)),
+    linear-gradient(180deg,rgba(0,7,15,.01),rgba(0,8,15,.16));
 }
 #weatherTint{position:absolute;inset:0;transition:background 1.2s ease}
 #weatherFx{position:absolute;inset:0;overflow:hidden}
@@ -48,7 +52,9 @@ button{cursor:pointer}
 #backdrop.storm #weatherTint{background:rgba(10,13,35,.62)}
 #backdrop.snow #weatherTint{background:rgba(185,220,240,.18)}
 #backdrop.fog #weatherTint{background:rgba(190,205,210,.34)}
-#backdrop.night:before{background:linear-gradient(90deg,rgba(0,2,10,.77),rgba(0,5,20,.51),rgba(0,2,10,.80))}
+#backdrop.night:before{background:
+ linear-gradient(90deg,rgba(0,2,10,.60),rgba(0,5,20,.25),rgba(0,2,10,.63)),
+ linear-gradient(180deg,rgba(6,18,45,.12),rgba(0,5,18,.30))}
 #backdrop.night #weatherTint{background:rgba(5,18,55,.48)}
 .drop{position:absolute;top:-30px;width:2px;height:26px;background:linear-gradient(transparent,rgba(185,225,255,.92));animation:rainfall linear infinite;transform:rotate(11deg)}
 .snow{position:absolute;border-radius:50%;background:#fff;box-shadow:0 0 9px rgba(255,255,255,.65);animation:snowfall linear infinite}
@@ -85,9 +91,9 @@ input:focus{border-color:rgba(110,190,255,.8);box-shadow:0 0 0 3px rgba(65,155,2
 
 .card{
   border:1px solid var(--line);
-  background:linear-gradient(145deg,rgba(3,14,23,.72),rgba(4,18,28,.54));
-  backdrop-filter:blur(18px) saturate(125%);
-  -webkit-backdrop-filter:blur(18px) saturate(125%);
+  background:linear-gradient(145deg,rgba(3,14,23,.52),rgba(4,18,28,.35));
+  backdrop-filter:blur(20px) saturate(135%);
+  -webkit-backdrop-filter:blur(20px) saturate(135%);
   border-radius:22px;box-shadow:var(--shadow),inset 0 1px rgba(255,255,255,.08);
 }
 .dashboard{display:grid;grid-template-columns:1.25fr 1fr 1fr 1fr;gap:12px}
@@ -179,6 +185,33 @@ input:focus{border-color:rgba(110,190,255,.8);box-shadow:0 0 0 3px rgba(65,155,2
   .sourcegrid,.detailgrid{grid-template-columns:1fr 1fr}
   #radarMap,#locationMap{height:285px}
 }
+
+/* Weather Overall – Final Candidate */
+.hero{
+  position:relative;overflow:hidden;
+  background:linear-gradient(110deg,rgba(3,14,23,.57),rgba(6,25,38,.24) 55%,rgba(3,14,23,.45));
+}
+.hours,.forecast,.model,.astro,.favorites,.radar,.mapcard,.sources{
+  background:linear-gradient(145deg,rgba(3,14,23,.48),rgba(4,18,28,.31));
+}
+.hero:before{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(circle at 77% 24%,rgba(255,218,132,.12),transparent 28%);
+}
+.current-main,.location-line,.datetime,.metrics{position:relative;z-index:1}
+.brand h1,.location-line h2,.temperature,.condition{text-shadow:0 3px 18px rgba(0,0,0,.72)}
+.hour,.modelbox,.infobox,.fav{box-shadow:inset 0 1px rgba(255,255,255,.07)}
+#backdrop.day.clear #weatherTint{background:radial-gradient(circle at 72% 13%,rgba(255,215,125,.12),transparent 26%)}
+#backdrop.day.cloudy #weatherTint{background:linear-gradient(180deg,rgba(80,105,125,.15),rgba(15,35,55,.20))}
+#backdrop.day.rain #weatherTint{background:linear-gradient(180deg,rgba(15,45,70,.25),rgba(5,20,35,.37))}
+#backdrop.day.fog #weatherTint{background:linear-gradient(180deg,rgba(220,230,232,.20),rgba(130,150,160,.22));backdrop-filter:blur(1.5px)}
+#backdrop.day.snow #weatherTint{background:linear-gradient(180deg,rgba(220,240,250,.13),rgba(150,190,215,.15))}
+#backdrop.day.storm #weatherTint{background:linear-gradient(180deg,rgba(15,18,40,.38),rgba(5,10,25,.50))}
+@media(max-width:760px){
+  #backdrop{background-position:54% center}
+  .hero{background:linear-gradient(160deg,rgba(3,14,23,.59),rgba(4,18,28,.32))}
+}
+
 </style>
 </head>
 <body>
@@ -188,7 +221,7 @@ input:focus{border-color:rgba(110,190,255,.8);box-shadow:0 0 0 3px rgba(65,155,2
   <header class="topbar">
     <div>
       <div class="eyebrow">Konsens aus seriösen Wettermodellen</div>
-      <div class="brand"><h1>Weather Overall</h1><span class="badge">V8</span></div>
+      <div class="brand"><h1>Weather Overall</h1><span class="badge">FINAL</span></div>
     </div>
     <div class="searchbar">
       <div class="querywrap">
@@ -392,7 +425,7 @@ async function forecast(loc){
 async function loadLocation(loc){
   $("status").textContent="Wetterdaten werden geladen …";$("status").classList.remove("hidden");
   try{
-    state.loc=loc;localStorage.setItem("weatherOverallLast",JSON.stringify(favoriteFromLoc(loc)));state.data=await forecast(loc);render();$("dashboard").classList.remove("hidden");$("status").classList.add("hidden");
+    state.loc=loc;state.data=await forecast(loc);localStorage.setItem("weatherOverallLast",JSON.stringify(favoriteFromLoc(loc)));render();$("dashboard").classList.remove("hidden");$("status").classList.add("hidden");
     loadAirQuality(loc);loadModels(loc);loadRadar(loc);loadLocationMap(loc);
   }catch(e){$("status").textContent="Fehler: "+e.message}
 }
