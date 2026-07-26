@@ -1,16 +1,31 @@
-WEATHER OVERALL – INSTALLATION
+WEATHER OVERALL V7
 
-1. Inhalt des ZIP-Pakets entpacken.
-2. Die Dateien bei einem statischen Webhost veröffentlichen (z. B. Netlify Drop, Cloudflare Pages oder GitHub Pages).
-3. Die erzeugte HTTPS-Adresse in Safari öffnen.
-4. Entweder:
-   A) Safari > Teilen > Zum Home-Bildschirm
-   oder
-   B) Kurzbefehle > Neuer Kurzbefehl > URL > Adresse einsetzen > URLs öffnen > Zum Home-Bildschirm.
-5. icon-512.png kann als Symbol des Kurzbefehls verwendet werden.
+ECHTE FUNKTIONSVERSION – kein Mockup.
 
-Die App funktioniert sofort mit Open-Meteo und wählt weltweit geeignete nationale Wettermodelle.
-Für Schweizer Orte wird MeteoSchweiz ICON-CH verwendet und ausgewiesen.
-Eine direkte Integration der offiziellen SRF-Meteo-API erfordert eigene OAuth-Zugangsdaten
-des SRG-SSR Developer Portals und eine geschützte Serverfunktion. Zugangsdaten gehören nicht
-in die öffentlich sichtbare HTML-Datei.
+NEU:
+- Alpenfoto als fest integrierter Hintergrund
+- wetterabhängige Licht- und Farbstimmung:
+  klar, bewölkt, Regen, Gewitter, Schnee, Nebel und Nacht
+- Regen-, Schnee-, Stern-, Mond- und Gewittereffekte bleiben dynamisch
+- dunkle, transparente Glasflächen wie im V7-Entwurf
+- breiteres Dashboard für iPad und Desktop
+- zusätzliche Karte des gewählten Orts
+- Wettergrafik aus deinem Bild als App-Symbol
+- alle Funktionen aus V6 bleiben erhalten:
+  Ortssuche, GPS, Favoriten, 24 Stunden, 7 Tage, Modellvergleich,
+  Luftqualität, Sonne/Mond, Stundendetails und Niederschlagsradar
+
+GITHUB-UPLOAD:
+Für V7 bitte ALLE folgenden Dateien hochladen bzw. ersetzen:
+- index.html
+- alpen-hintergrund.jpg
+- icon-180.png
+- icon-512.png
+- manifest.webmanifest
+
+Am einfachsten:
+Den Inhalt der ZIP entpacken und alle Dateien gemeinsam in das Repository
+Weather-All hochladen. Danach Commit changes wählen.
+
+APP:
+https://wolf2207.github.io/Weather-All/
