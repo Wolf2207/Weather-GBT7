@@ -128,7 +128,20 @@ button{cursor:pointer}
 "use strict";
 
 const $ = id => document.getElementById(id);
-const state = {loc:null,data:null,air:null,map:null,radarLayer:null,models:[],favorites:JSON.parse(localStorage.getItem("wo-final-favorites")||"[]")};
+const migratedFavorites = (() => {
+  const keys = ["wo-final-favorites","wo-1-0-favorites","wo-v10-favorites","weatherOverallFavorites"];
+  for (const key of keys) {
+    try {
+      const value = JSON.parse(localStorage.getItem(key) || "null");
+      if (Array.isArray(value) && value.length) {
+        localStorage.setItem("wo-final-favorites", JSON.stringify(value));
+        return value;
+      }
+    } catch {}
+  }
+  return [];
+})();
+const state = {loc:null,data:null,air:null,map:null,radarLayer:null,models:[],favorites:migratedFavorites};
 const WMO = {
   0:["Klar","☀️","clear"],1:["Überwiegend klar","🌤️","clear"],2:["Teilweise bewölkt","⛅","cloudy"],3:["Bedeckt","☁️","cloudy"],
   45:["Nebel","🌫️","fog"],48:["Reifnebel","🌫️","fog"],51:["Leichter Nieselregen","🌦️","rain"],53:["Nieselregen","🌦️","rain"],55:["Starker Nieselregen","🌧️","rain"],
@@ -355,7 +368,17 @@ $("scrollDays").onclick=()=>$("dailyCard").scrollIntoView({behavior:"smooth",blo
 if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
 
 (async()=>{
-  const last=JSON.parse(localStorage.getItem("wo-final-last")||"null");
+  let last=null;
+  for (const key of ["wo-final-last","wo-1-0-last","wo-v10-last","weatherOverallLast"]) {
+    try {
+      const candidate=JSON.parse(localStorage.getItem(key)||"null");
+      if(candidate && Number.isFinite(candidate.latitude) && Number.isFinite(candidate.longitude)){
+        last=candidate;
+        localStorage.setItem("wo-final-last",JSON.stringify(candidate));
+        break;
+      }
+    } catch {}
+  }
   await loadLocation(last||{name:"Schaffhausen",admin1:"Kanton Schaffhausen",country:"Schweiz",country_code:"CH",latitude:47.6965,longitude:8.6330,timezone:"Europe/Zurich"});
 })();
 

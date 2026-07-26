@@ -1,8 +1,8 @@
 {
   "name": "Weather Overall",
   "short_name": "Weather",
-  "description": "Finale Premium-Wetter-App mit weltweiter Suche, 24-Stunden- und 7-Tage-Prognose, Modellvergleich, Radar, Luftqualität, Favoriten und dynamischem Alpenpanorama.",
-  "start_url": "./?final=1",
+  "description": "Finale Premium-Wetter-App mit Favoritenübernahme.",
+  "start_url": "./?final=2",
   "scope": "./",
   "display": "standalone",
   "background_color": "#12395a",
