@@ -2,7 +2,7 @@
   "name": "Weather Overall",
   "short_name": "Weather",
   "description": "Premium-Wetter-App mit weltweiter Suche, Favoriten, Modellvergleich, Radar und dynamischem Alpenpanorama.",
-  "start_url": "./?release=perfect",
+  "start_url": "./?release=homescreen-final",
   "scope": "./",
   "display": "standalone",
   "background_color": "#123858",

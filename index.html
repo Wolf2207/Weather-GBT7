@@ -8,12 +8,12 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Weather Overall">
 <title>Weather Overall</title>
-<link rel="manifest" href="manifest.webmanifest?release=perfect">
-<link rel="apple-touch-icon" href="icon-180.png?release=perfect">
+<link rel="manifest" href="manifest.webmanifest?release=homescreen-final">
+<link rel="apple-touch-icon" href="icon-180.png?release=homescreen-final">
 <style>
 :root{--white:#fff;--muted:rgba(255,255,255,.78);--line:rgba(255,255,255,.27);--glass:rgba(5,29,43,.34);--deep:rgba(3,22,34,.48);--shadow:0 18px 48px rgba(0,0,0,.25);--r:18px}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;color:#fff;background:#123858}button,input{font:inherit;color:inherit}button{cursor:pointer}.hidden{display:none!important}
-.scene{position:fixed;inset:0;z-index:0;background:#123858 url('alpen-hintergrund.jpg?release=perfect') center/cover no-repeat;overflow:hidden}.scene:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,14,25,.02),rgba(3,17,27,.10) 56%,rgba(2,12,21,.24)),linear-gradient(90deg,rgba(2,16,26,.12),transparent 45%,rgba(2,16,26,.10))}.scene.night:before{background:linear-gradient(180deg,rgba(3,7,23,.30),rgba(2,7,21,.44),rgba(1,5,17,.60))}.tint,.fx{position:absolute;inset:0;pointer-events:none;overflow:hidden}.scene.clear .tint{background:radial-gradient(circle at 73% 11%,rgba(255,220,139,.18),transparent 26%)}.scene.cloudy .tint{background:rgba(100,125,143,.08)}.scene.rain .tint{background:linear-gradient(180deg,rgba(22,61,89,.15),rgba(5,28,46,.23))}.scene.snow .tint{background:rgba(223,242,250,.11)}.scene.fog .tint{background:rgba(225,237,240,.15);backdrop-filter:blur(1.5px)}.scene.storm .tint{background:rgba(18,19,48,.27)}
+.scene{position:fixed;inset:0;z-index:0;background:#123858 url('alpen-hintergrund.jpg?release=homescreen-final') center/cover no-repeat;overflow:hidden}.scene:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,14,25,.02),rgba(3,17,27,.10) 56%,rgba(2,12,21,.24)),linear-gradient(90deg,rgba(2,16,26,.12),transparent 45%,rgba(2,16,26,.10))}.scene.night:before{background:linear-gradient(180deg,rgba(3,7,23,.30),rgba(2,7,21,.44),rgba(1,5,17,.60))}.tint,.fx{position:absolute;inset:0;pointer-events:none;overflow:hidden}.scene.clear .tint{background:radial-gradient(circle at 73% 11%,rgba(255,220,139,.18),transparent 26%)}.scene.cloudy .tint{background:rgba(100,125,143,.08)}.scene.rain .tint{background:linear-gradient(180deg,rgba(22,61,89,.15),rgba(5,28,46,.23))}.scene.snow .tint{background:rgba(223,242,250,.11)}.scene.fog .tint{background:rgba(225,237,240,.15);backdrop-filter:blur(1.5px)}.scene.storm .tint{background:rgba(18,19,48,.27)}
 .drop,.flake{position:absolute;top:-30px;animation:fall linear infinite}.drop{width:2px;height:22px;background:linear-gradient(transparent,rgba(174,226,255,.85))}.flake{font-size:17px}@keyframes fall{to{transform:translate3d(-45px,110vh,0)}}
 .app{position:relative;z-index:2;width:min(1580px,calc(100% - 18px));margin:auto;padding:max(12px,env(safe-area-inset-top)) 0 max(16px,env(safe-area-inset-bottom))}.glass{border:1px solid var(--line);background:linear-gradient(145deg,rgba(4,25,39,.38),rgba(255,255,255,.055));backdrop-filter:blur(14px) saturate(135%);-webkit-backdrop-filter:blur(14px) saturate(135%);box-shadow:var(--shadow)}
 .top{min-height:77px;border-radius:28px 28px 13px 13px;padding:10px 17px;display:grid;grid-template-columns:minmax(330px,1fr) minmax(380px,650px) auto;align-items:center;gap:15px;margin-bottom:8px}.brand small{display:block;font-size:11px;letter-spacing:1.8px;font-weight:750;color:var(--muted)}.brand h1{font-size:36px;letter-spacing:-1.5px;margin:1px 0}.version{display:inline-block;font-size:11px;padding:5px 8px;border:1px solid var(--line);border-radius:999px;vertical-align:6px;margin-left:7px}.search{display:flex;gap:7px}.searchbox{position:relative;flex:1}.search input{height:45px;width:100%;border:1px solid var(--line);border-radius:13px;background:rgba(4,25,39,.29);padding:0 15px}.btn{height:45px;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.08);padding:0 14px;font-weight:740}.btn:hover{background:rgba(255,255,255,.15)}.suggestions{position:absolute;top:50px;left:0;right:0;z-index:60;background:rgba(5,28,42,.97);border:1px solid var(--line);border-radius:13px;overflow:hidden;box-shadow:var(--shadow)}.suggestion{padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.1)}.suggestion:last-child{border:0}.suggestion small{color:var(--muted)}
@@ -23,12 +23,46 @@
 .lower{display:grid;grid-template-columns:1fr 1fr;gap:7px}.mapcard{border-radius:14px;padding:9px}.frame{width:100%;height:230px;border:0;border-radius:10px;background:rgba(2,14,22,.35)}.footer{margin-top:8px;border-radius:12px;padding:8px 12px;display:flex;justify-content:space-between;color:var(--muted);font-size:10px}.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:90;background:rgba(4,22,34,.96);border:1px solid var(--line);border-radius:999px;padding:10px 15px;box-shadow:var(--shadow)}
 @media(max-width:1100px){.top{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.dash{grid-template-columns:1fr 1fr}}
 @media(max-width:760px){.app{width:calc(100% - 10px)}.top{border-radius:20px 20px 10px 10px}.brand h1{font-size:29px}.search{display:grid;grid-template-columns:1fr auto auto}.searchbox{grid-column:1/-1}.hero{padding:12px}.weatherstage{grid-template-columns:1fr 120px}.temp{font-size:88px}.mainicon{font-size:92px}.location h2{font-size:29px}.dash,.lower{grid-template-columns:1fr}.favlist{grid-template-columns:repeat(2,1fr)}}
+
+/* Final iPad/Safari fixes */
+.top{
+  position:relative;
+  z-index:1000;
+  overflow:visible;
+  isolation:isolate;
+}
+.search,
+.searchbox{
+  position:relative;
+  z-index:1002;
+  overflow:visible;
+}
+.suggestions{
+  z-index:10000;
+  max-height:min(360px,45vh);
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  transform:translateZ(0);
+}
+.hero,.hoursbox,.dash,.lower,.footer{
+  position:relative;
+  z-index:1;
+}
+.suggestion{
+  cursor:pointer;
+  background:rgba(5,28,42,.98);
+}
+.suggestion:hover,
+.suggestion:active{
+  background:rgba(47,119,160,.98);
+}
+
 </style>
 </head>
 <body>
 <div class="scene clear" id="scene"><div class="tint"></div><div class="fx" id="fx"></div></div>
 <main class="app">
-<header class="top glass"><div class="brand"><small>KONSENS AUS SERIÖSEN WETTERMODELLEN</small><h1>Weather Overall <span class="version">PERFEKT</span></h1></div><div class="search"><div class="searchbox"><input id="q" autocomplete="off" placeholder="Ort eingeben, z. B. Schaffhausen"><div id="suggestions" class="suggestions hidden"></div></div><button class="btn" id="go">Abrufen</button><button class="btn" id="gps">📍</button></div><button class="btn" id="places">★ Meine Orte</button></header>
+<header class="top glass"><div class="brand"><small>KONSENS AUS SERIÖSEN WETTERMODELLEN</small><h1>Weather Overall <span class="version">FERTIG</span></h1></div><div class="search"><div class="searchbox"><input id="q" autocomplete="off" placeholder="Ort eingeben, z. B. Schaffhausen"><div id="suggestions" class="suggestions hidden"></div></div><button class="btn" id="go">Abrufen</button><button class="btn" id="gps">📍</button></div><button class="btn" id="places">★ Meine Orte</button></header>
 <section class="hero glass"><div><div class="locationrow"><div class="location"><h2><span id="flag">🇨🇭</span> <span id="place">Schaffhausen, Schweiz</span></h2><p id="datetime">Wetterdaten werden geladen …</p></div><button class="star" id="star">☆</button></div><div class="weatherstage"><div><div class="temp"><span id="temp">--</span>°</div><div class="condition" id="condition">Wetter wird geladen</div><div class="summary" id="summary">Bitte einen Augenblick warten.</div></div><div class="mainicon" id="icon">⛅</div></div></div><aside><div class="metrics"><div class="metric"><label>Gefühlt</label><strong id="feels">--°</strong></div><div class="metric"><label>Luftfeuchte</label><strong id="humidity">-- %</strong></div><div class="metric"><label>Wind</label><strong id="wind">-- km/h</strong></div><div class="metric"><label>Luftdruck</label><strong id="pressure">-- hPa</strong></div><div class="metric"><label>Niederschlag</label><strong id="precip">-- mm</strong></div><div class="metric"><label>UV-Index</label><strong id="uv">--</strong></div><div class="metric"><label>Sichtweite</label><strong id="visibility">-- km</strong></div><div class="metric"><label>Wolkenbedeckung</label><strong id="clouds">-- %</strong></div></div><div class="air"><div class="aqi" id="aqi">--</div><div class="airtext"><b id="airlabel">Luftqualität</b><small id="pm">PM2.5: -- µg/m³</small></div><div class="airbar"><i class="airdot" id="airdot" style="left:0%"></i></div></div></aside></section>
 <section class="hoursbox glass"><div class="head"><h3>24 Stunden</h3><div class="tabs"><button class="tab active">Stunden</button><button class="tab" id="toDays">7 Tage</button></div></div><div class="hourly" id="hourly"></div></section>
 <section class="dash"><article class="card glass" id="daysCard"><h3>7-Tage-Vorhersage</h3><div id="daily"></div></article><article class="card glass"><h3>Modellvergleich</h3><div class="models" id="models"></div><div class="consensus" id="consensus">Modellkonsens wird geladen.</div></article><article class="card glass"><h3>Sonne & Mond</h3><div class="astrogrid"><div class="astro"><small>Sonnenaufgang</small><b id="sunrise">--:--</b>🌅</div><div class="astro"><small>Sonnenuntergang</small><b id="sunset">--:--</b>🌇</div></div><div class="moon" id="moon">🌙</div><div class="daylight" id="daylight">Tageslänge</div></article><article class="card glass"><h3>Favoriten</h3><div class="favlist" id="favorites"></div></article></section>
@@ -61,5 +95,13 @@ function scene(type,day){const s=$('scene');s.className='scene '+type+' '+(day?'
 let timer;$('q').oninput=()=>{clearTimeout(timer);const q=$('q').value.trim();if(q.length<2){$('suggestions').classList.add('hidden');return}timer=setTimeout(async()=>{try{const d=await geocode(q),a=d.results||[];$('suggestions').innerHTML=a.map((r,i)=>`<div class="suggestion" data-i="${i}"><b>${r.name}</b><br><small>${[r.admin1,r.country].filter(Boolean).join(', ')}</small></div>`).join('');$('suggestions').classList.toggle('hidden',!a.length);[...$('suggestions').children].forEach((e,i)=>e.onclick=()=>{$('q').value=a[i].name;$('suggestions').classList.add('hidden');load(loc(a[i]))})}catch{}},300)};$('go').onclick=async()=>{const q=$('q').value.trim();if(!q)return;try{const d=await geocode(q),r=d.results?.[0];r?load(loc(r)):toast('Ort nicht gefunden')}catch{toast('Ortssuche fehlgeschlagen')}};$('q').onkeydown=e=>{if(e.key==='Enter')$('go').click()};$('gps').onclick=()=>navigator.geolocation?navigator.geolocation.getCurrentPosition(p=>load({name:'Mein Standort',admin1:'',country:'',country_code:'',latitude:p.coords.latitude,longitude:p.coords.longitude}),()=>toast('Standort konnte nicht bestimmt werden')):toast('GPS nicht verfügbar');$('star').onclick=()=>{const k=key(state.loc),i=state.favorites.findIndex(f=>key(f)===k);if(i>=0){state.favorites.splice(i,1);toast('Favorit entfernt')}else{state.favorites.unshift(state.loc);toast('Favorit gespeichert')}localStorage.setItem('weather-perfect-favorites',JSON.stringify(state.favorites));renderFavs();$('star').textContent=i>=0?'☆':'★'};$('places').onclick=()=>document.querySelector('.card:last-child').scrollIntoView({behavior:'smooth'});$('toDays').onclick=()=>$('daysCard').scrollIntoView({behavior:'smooth'});
 if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 (async()=>{let l;for(const k of ['weather-perfect-last','wo-final-last','wo-1-0-last','wo-v10-last']){try{const x=JSON.parse(localStorage.getItem(k)||'null');if(x&&Number.isFinite(x.latitude)){l=x;break}}catch{}}await load(l||defaults[0])})();
+
+document.addEventListener('pointerdown',e=>{
+  const box=$('suggestions');
+  if(!$('q').contains(e.target) && !box.contains(e.target)){
+    box.classList.add('hidden');
+  }
+});
+
 </script>
 </body></html>
