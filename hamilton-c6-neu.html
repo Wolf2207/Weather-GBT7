@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Hamilton C6 · Referenz v8.1 (GitHub)</title>
+<style>
+  :root{
+    --bg0:#0a1322; --bg1:#101e33; --panel:rgba(255,255,255,.055);
+    --panel-strong:rgba(255,255,255,.09); --line:rgba(255,255,255,.10);
+    --txt:#eaf1fa; --dim:#93a4bc; --faint:#5f7089;
+    --accent:#53c8f0; --teal:#37d3b8; --amber:#f5c04c; --red:#f57272;
+    --r:16px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;
+    background:linear-gradient(165deg,var(--bg0) 0%,var(--bg1) 55%,#0c1526 100%);
+    background-attachment:fixed;
+    color:var(--txt); min-height:100vh; padding-bottom:40px;
+  }
+  .wrap{max-width:1060px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 14px 0}
+
+  header{display:flex;align-items:baseline;gap:10px;padding:6px 4px 12px}
+  header h1{font-size:21px;font-weight:800;letter-spacing:.3px}
+  header .ver{font-size:12px;color:var(--faint);font-weight:600}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--teal);align-self:center;
+       box-shadow:0 0 8px var(--teal)}
+
+  .links{display:flex;gap:8px;flex-wrap:wrap;padding:0 2px 14px}
+  .links a{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;
+    color:var(--accent);text-decoration:none;border:1px solid rgba(83,200,240,.4);
+    border-radius:999px;padding:8px 13px;background:rgba(83,200,240,.07)}
+  .links a:active{transform:scale(.97)}
+
+  .grid{display:grid;grid-template-columns:340px 1fr;gap:14px}
+  @media(max-width:820px){.grid{grid-template-columns:1fr}}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+        padding:16px;backdrop-filter:blur(6px)}
+  .card h2{font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;
+           color:var(--dim);margin-bottom:12px}
+
+  .searchrow{display:flex;gap:8px}
+  .searchrow input{
+    flex:1;background:rgba(0,0,0,.28);border:1px solid var(--line);border-radius:12px;
+    color:var(--txt);font-size:15px;padding:12px 14px;font-family:inherit;outline:none}
+  .searchrow input:focus{border-color:var(--accent)}
+  .searchrow input::placeholder{color:var(--faint)}
+  .btn{background:var(--accent);color:#062033;border:none;border-radius:12px;
+       font-size:15px;font-weight:700;padding:12px 16px;cursor:pointer;font-family:inherit}
+  .btn:active{transform:scale(.97)}
+  .hint{font-size:11px;color:var(--faint);margin-top:8px;line-height:1.4}
+
+  /* Suchergebnisse */
+  #results{margin-top:14px;display:none}
+  #results.show{display:block}
+  .rgroup{margin-bottom:6px}
+  .rgroup h3{font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;
+             color:var(--dim);margin:10px 0 8px}
+  .hit{background:var(--panel-strong);border:1px solid var(--line);border-radius:11px;
+       padding:11px 13px;margin-bottom:7px}
+  .hit .t{font-size:13.5px;font-weight:700;color:var(--teal);line-height:1.4}
+  .hit .s{font-size:13px;color:var(--txt);line-height:1.5;margin-top:3px}
+  .hit .howto{font-size:12.5px;color:var(--amber);margin-top:5px;line-height:1.45}
+  .hit a.pdf{display:inline-block;margin-top:7px;font-size:12.5px;font-weight:700;
+       color:var(--accent);text-decoration:none;border:1px solid rgba(83,200,240,.4);
+       border-radius:999px;padding:6px 12px;background:rgba(83,200,240,.08)}
+  .noresult{font-size:13px;color:var(--dim);line-height:1.5;padding:4px 2px}
+
+  .tiles{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .tile{background:var(--panel-strong);border:1px solid var(--line);border-radius:13px;
+        padding:13px 12px;cursor:pointer;transition:transform .12s,background .12s;
+        display:flex;flex-direction:column;gap:5px;text-align:left;color:var(--txt);
+        font-family:inherit}
+  .tile:active{transform:scale(.97)}
+  .tile:hover{background:rgba(255,255,255,.13)}
+  .tile .ico{font-size:20px;line-height:1}
+  .tile .lbl{font-size:14px;font-weight:700}
+  .tile .sub{font-size:11px;color:var(--dim);line-height:1.35}
+  .tile.on{outline:2px solid var(--accent);background:rgba(83,200,240,.12)}
+
+  .content h3{font-size:19px;font-weight:800;margin-bottom:4px}
+  .content .tag{font-size:11px;color:var(--accent);font-weight:700;letter-spacing:1px;
+                text-transform:uppercase}
+  .rows{margin-top:12px;display:flex;flex-direction:column}
+  .row{display:flex;gap:12px;padding:11px 2px;border-top:1px solid var(--line);
+       align-items:baseline}
+  .row:first-child{border-top:none}
+  .row .k{flex:0 0 138px;font-size:13px;font-weight:700;color:var(--teal)}
+  .row .v{flex:1;font-size:13.5px;color:var(--txt);line-height:1.5}
+  .note{margin-top:12px;font-size:12px;color:var(--dim);line-height:1.5;
+        border-left:3px solid var(--amber);padding-left:10px}
+
+  .chips{margin-top:14px}
+  .chips h4{font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;
+    color:var(--dim);margin-bottom:9px}
+  .chip{display:block;width:100%;text-align:left;background:var(--panel-strong);
+    border:1px solid var(--line);border-radius:11px;color:var(--txt);font-size:13.5px;
+    padding:11px 13px;margin-bottom:7px;cursor:pointer;font-family:inherit;line-height:1.4}
+  .chip:active{transform:scale(.98)}
+  .chip:hover{background:rgba(255,255,255,.13)}
+  .chip::before{content:"→ ";color:var(--accent);font-weight:700}
+
+  footer{max-width:1060px;margin:22px auto 0;padding:0 18px;font-size:11px;
+         color:var(--faint);line-height:1.5}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>HAMILTON&#8209;C6</h1>
+    <span class="ver">Referenz&nbsp;v8.1 · deutsches Handbuch</span>
+    <span class="dot" title="bereit"></span>
+  </header>
+
+  <div class="links">
+    <a href="https://www.hamilton-medical.com/dam/jcr:a0f2bfcf-4141-4aac-b438-c7629006a34a/INTELLiVENT-ASV-HAMILTON-C6-quick-guide-de-689609.01-A.pdf" target="_blank" rel="noopener">⚡ INTELLiVENT-ASV Kurzanleitung DE</a>
+  </div>
+
+  <div class="grid">
+    <div>
+      <div class="card">
+        <h2>Sofort-Suche — lokal, ohne Limit</h2>
+        <div class="searchrow">
+          <input id="q" type="text" placeholder="z. B. Sauerstoff Grenzen einstellen"
+                 enterkeyhint="search" autocomplete="off">
+          <button class="btn" id="go">Suchen</button>
+        </div>
+        <div class="hint">Sucht sofort im eingebauten Wissen <b>und</b> im Kapitelregister des <b>deutschen</b> Bedienungshandbuchs (SW 1.x.x). Kapitel-Links öffnen das deutsche Original-PDF von Hamilton Medical.</div>
+        <div id="results"></div>
+        <h2 style="margin-top:18px">Schnellzugriff</h2>
+        <div class="tiles" id="tiles"></div>
+      </div>
+    </div>
+    <div class="card content" id="content"></div>
+  </div>
+</div>
+
+<footer>
+  Interne Lernhilfe. Kapitel- und Seitenangaben nach dem offiziellen deutschen Bedienungshandbuch zum HAMILTON-C6, SW 1.x.x (624946/01). Ersetzt weder die Gebrauchsanweisung von Hamilton Medical noch die klinische Beurteilung. Einstellungen immer gemäss hausinternen Standards und ärztlicher Verordnung.
+</footer>
+
+<script>
+const MANUAL="https://www.hamilton-medical.com/dam/jcr:b7f0937a-600f-41fd-9995-f299b54c8080/HAMILTON-C6_ops-manual_v1.x.x_de_624946.01.pdf";
+
+/* ===== Kapitelregister — aus dem offiziellen Handbuch (SW 1.2.x, EN) ===== */
+/* c=Kapitel, p=Seite (gedruckt), t=Titel deutsch, en=Originaltitel, k=Suchwörter, h=verifizierter Bedien-Hinweis */
+const REG=[
+ {c:"2.2.2",p:51,t:"Der Hauptbildschirm",k:"display anzeige hauptbildschirm mmp bildschirm aufbau fenster schaltflächen"},
+ {c:"2.3",p:58,t:"Navigieren durch Fenster und Bedienelemente",k:"bedienung navigation einstellknopf drehknopf touch fenster öffnen einstellen bestätigen schieberegler parameter anpassen"},
+ {c:"2.3.4",p:60,t:"Verknüpfungen (Schnellzugriffe)",k:"verknüpfung shortcut schnellzugriff abkürzung",h:"MMP antippen → «Alarme > Grenzen 1» · SpO2-Wert antippen → «Alarme > Grenzen 2» · Batteriesymbol antippen → «System > Info 1»"},
+ {c:"3.2",p:64,t:"Stromversorgung und Batterie",k:"strom netz akku batterie ladung verbleibende zeit"},
+ {c:"3.3",p:65,t:"Sauerstoffzufuhr anschliessen",k:"sauerstoff o2 gas anschluss zufuhr zentral flasche diss nist"},
+ {c:"3.4",p:66,t:"Beatmungsschlauchsystem einrichten",k:"schlauchsystem beatmungsschläuche aufbau anschlüsse zusammensetzen"},
+ {c:"3.4.2",p:67,t:"Exspirationsventil montieren",k:"exspirationsventil membran ventil einsetzen wechseln silikonmembran"},
+ {c:"3.4.4.1",p:68,t:"Flow-Sensor anschliessen",k:"flowsensor flow sensor anschliessen blau schläuche y-stück"},
+ {c:"3.5",p:70,t:"Ösophagusdruck-Monitoring einrichten (Pes)",k:"ösophagus pes sonde katheter transpulmonal einrichten"},
+ {c:"3.6",p:70,t:"Gerät ein- und ausschalten",k:"einschalten ausschalten start hauptschalter standby taste",h:"Taste «Hauptschalter/Standby» am Monitor; Ausschalten: erst «Standby aktivieren», dann Taste ca. 3 s halten"},
+ {c:"4.2",p:74,t:"Befeuchter einrichten (H900)",k:"befeuchter humidifier h900 anschliessen com3 einrichten"},
+ {c:"4.3",p:74,t:"IntelliCuff einrichten",k:"intellicuff cuff einrichten schlauch anschliessen"},
+ {c:"4.4",p:77,t:"CO2-Monitoring einrichten",k:"co2 kapnographie hauptstrom nebenstrom sensor einrichten etco2 petco2"},
+ {c:"4.5",p:80,t:"SpO2-Monitoring einrichten",k:"spo2 pulsoximetrie sättigung sensor einrichten"},
+ {c:"4.7",p:81,t:"Verneblung einrichten",k:"vernebler verneblung aerogen pneumatisch einrichten inhalation medikament"},
+ {c:"5.2",p:84,t:"Patientengruppe wählen / schnelle Setups",k:"patientengruppe erwachsene pädiatrie neonaten schnelles setup voreinstellung"},
+ {c:"5.3",p:85,t:"Patientendaten eingeben (Grösse, Geschlecht, IBW)",k:"patientendaten grösse geschlecht ibw idealgewicht eingeben neuer patient anlegen"},
+ {c:"5.4.1",p:87,t:"Überprüfung vor Inbetriebnahme",k:"gerätecheck vorcheck überprüfung inbetriebnahme test"},
+ {c:"5.4.2",p:89,t:"Flow-Sensor kalibrieren (Erw./Päd.)",k:"flowsensor kalibrieren kalibration flow sensor"},
+ {c:"5.4.3",p:90,t:"Dichtheitstest durchführen",k:"dichtheitstest dichtigkeitstest leak leckagetest schlauchsystem prüfen"},
+ {c:"5.4.4",p:91,t:"Sauerstoffsensor kalibrieren",k:"o2 sensor sauerstoffsensor sauerstoffzelle kalibrieren kalibration"},
+ {c:"5.4.5",p:92,t:"CO2-Sensor nullkalibrieren",k:"co2 nullkalibration zero kalibrieren adapter"},
+ {c:"5.4.6",p:94,t:"Alarme testen",k:"alarmtest alarme testen prüfen"},
+ {c:"5.5",p:96,t:"Beatmungsmodus auswählen und wechseln",k:"modus wählen wechseln moduswechsel auswählen"},
+ {c:"5.5.1",p:97,t:"Beatmungseinstellungen überprüfen und anpassen",k:"einstellungen überprüfen anpassen bestätigen parameter"},
+ {c:"5.5.2",p:98,t:"Triggertypen (Flow, Druck, IntelliSync+)",k:"trigger flowtrigger drucktrigger intellisync empfindlichkeit einstellen"},
+ {c:"5.5.3",p:100,t:"Apnoe-Backup-Modus",k:"apnoe backup einstellen sicherung"},
+ {c:"5.5.4",p:102,t:"Automatische Tubuskompensation (TRC)",k:"trc tubuskompensation tubus widerstand"},
+ {c:"5.6",p:104,t:"Alarmgrenzwerte einstellen",k:"alarmgrenzen alarmgrenzwerte grenzen einstellen druck minutenvolumen frequenz auto",h:"Schaltfläche «Alarme» > Registerkarte «Grenzen»; Antippen eines MMP-Werts öffnet «Grenzen 1» direkt"},
+ {c:"5.6.1",p:108,t:"Alarmgrenzwerte für «Sauerst.» (O2/FiO2)",k:"sauerstoff o2 fio2 alarmgrenzen alarmgrenzwerte grenzen einstellen",h:"«Alarme > Grenzen»; manuelle O2-Grenzwerte: Konfiguration, Kap. 14.3.6 (S. 302)"},
+ {c:"5.7",p:108,t:"Beatmung starten",k:"beatmung starten start"},
+ {c:"5.8",p:108,t:"Beatmung anhalten",k:"beatmung stoppen anhalten beenden standby"},
+ {c:"5.9",p:108,t:"Kontrollparameter im Überblick",k:"einstellparameter kontrollparameter peep pinsp psupport frequenz vt fio2 rampe ets bereich"},
+ {c:"6.1",p:116,t:"Beatmung von Neonaten einrichten",k:"neonaten neugeborene frühgeborene einrichten gewicht"},
+ {c:"6.2.1",p:120,t:"Flow-Sensor für Neonaten kalibrieren",k:"neonaten flowsensor kalibrieren"},
+ {c:"7.1.2",p:125,t:"Alle Beatmungsmodi im Überblick",k:"modi übersicht beatmungsmodi liste cmv simv pcv psimv duopap aprv spont"},
+ {c:"7.5.1",p:144,t:"Modus ASV",k:"asv adaptive support ventilation minvol"},
+ {c:"7.5.2",p:146,t:"Modus INTELLiVENT-ASV",k:"intellivent asv automatik ziele"},
+ {c:"7.6.4",p:152,t:"High-Flow Sauerstofftherapie",k:"hiflow highflow high flow sauerstofftherapie nasal starten flow fio2 einstellen"},
+ {c:"7.8",p:155,t:"Arbeiten mit nichtinvasiven Modi (NIV)",k:"niv nichtinvasiv maske einstellungen alarme kontraindikationen wechsel"},
+ {c:"7.8.4",p:157,t:"Parametereinstellungen bei der NIV",k:"niv parametereinstellungen einstellungen druckunterstützung"},
+ {c:"7.8.6",p:158,t:"Überwachte Parameter bei der NIV (inkl. Leckage)",k:"niv leckage leak anzeige parameter mvleck überwacht"},
+ {c:"7.9",p:159,t:"Arbeiten mit dem Modus ASV",k:"asv arbeiten workflow einrichten klinisch"},
+ {c:"7.9.5",p:164,t:"Entwöhnung (Weaning) mit ASV",k:"weaning entwöhnung asv minvol reduzieren"},
+ {c:"8.2",p:174,t:"Numerische Patientendaten und MMP",k:"mmp smp monitoring zahlenwerte parameter anzeigen konfigurieren hauptbildschirm einblenden"},
+ {c:"8.3.2",p:179,t:"Optionen für die Grafikanzeige wählen",k:"layout anzeige grafik ansicht wählen darstellung"},
+ {c:"8.3.3",p:180,t:"Arbeiten mit Kurven",k:"kurven waveform druckkurve flowkurve einfrieren cursor"},
+ {c:"8.3.4",p:184,t:"Arbeiten mit Trendgrafiken",k:"trend trends verlauf zeitraum ändern anzeigen stunden"},
+ {c:"8.3.5",p:186,t:"Arbeiten mit Loops",k:"loops druck volumen schleifen"},
+ {c:"8.4.1",p:187,t:"Grafik «Dynam.Lunge»",k:"dynamic lung dynamische lunge grafik compliance resistance echtzeit"},
+ {c:"8.4.2",p:190,t:"Grafik «Beatm.Status»",k:"beatmungsstatus vent status grafik weaning abhängigkeit"},
+ {c:"8.4.3",p:192,t:"ASV-Grafik: Zielwerte in Echtzeit",k:"asv grafik zielgrafik ziel kurve lesen"},
+ {c:"8.5",p:193,t:"Monitoring des transpulmonalen Drucks",k:"transpulmonal ösophagusdruck pes monitoring"},
+ {c:"8.6",p:193,t:"Alle überwachten Parameter erklärt",k:"messwerte definition autopeep p01 rsb rcexp cstat resistance driving pressure erklärung bedeutung überwachte"},
+ {c:"9.1.2",p:211,t:"Umgang mit einem Alarm",k:"alarm reagieren quittieren vorgehen rot gelb priorität umgang"},
+ {c:"9.1.3",p:212,t:"Alarm vorübergehend unterdrücken",k:"alarm stumm stummschalten unterdrücken audio anhalten leise"},
+ {c:"9.2",p:213,t:"Das Alarm Log (Alarm-Verlauf)",k:"alarm log alarmpuffer verlauf historie alarme ansehen",h:"«Alarme > Alarm Log»; Antippen einer Alarmmeldung öffnet die On-Screen Hilfe zur Fehlerbehebung"},
+ {c:"9.3",p:215,t:"Alarmlautstärke einstellen",k:"alarmlautstärke lautstärke laut leise einstellen"},
+ {c:"9.4",p:215,t:"Fehlerbehebung bei Alarmen (komplette Tabelle)",k:"alarm troubleshooting fehlerbehebung fehlermeldung ursache abhilfe flow sensor prüfen druck hoch minutenvolumen tief diskonnektion tabelle"},
+ {c:"10.3",p:242,t:"Standby aufrufen und beenden",k:"standby aktivieren aufrufen beenden pause transport"},
+ {c:"10.4",p:243,t:"Anreicherung mit O2",k:"o2 anreicherung sauerstoff präoxygenierung taste 100"},
+ {c:"10.4.1",p:244,t:"Absaugmanöver",k:"absaugen absaugmanöver suctioning"},
+ {c:"10.4.2",p:245,t:"Manueller Atemhub",k:"manueller atemhub hub taste manuell"},
+ {c:"10.5",p:245,t:"Inspiratorischer und exspiratorischer Hold",k:"hold inspirationshold exspirationshold plateau autopeep messen"},
+ {c:"10.6",p:247,t:"Arbeiten mit einem Vernebler",k:"vernebler bedienen starten aktivieren aerogen pneumatisch taste"},
+ {c:"10.7",p:248,t:"Touchscreen sperren/entsperren",k:"bildschirm sperren touchscreen sperre reinigung"},
+ {c:"10.8",p:248,t:"Screenshot erstellen",k:"screenshot bildschirmfoto erstellen",h:"Taste «Print Screen» am Monitor; Export via USB"},
+ {c:"10.9",p:249,t:"Event Log ansehen und auf USB kopieren",k:"event log ereignisprotokoll usb stick kopieren exportieren"},
+ {c:"10.10",p:250,t:"Bildschirmoptionen: Datum, Uhrzeit, Helligkeit",k:"datum uhrzeit helligkeit tag nacht einstellen bildschirm"},
+ {c:"11.3",p:256,t:"P/V Tool öffnen",k:"pv tool öffnen"},
+ {c:"11.5",p:258,t:"P/V Tool-Manöver durchführen",k:"pv tool manöver durchführen schritt rekrutierbarkeit"},
+ {c:"11.8",p:263,t:"Recruitmentmanöver durchführen",k:"recruitment rekrutierung manöver durchführen"},
+ {c:"12.1.1",p:266,t:"Befeuchter am Gerät bedienen",k:"befeuchter bedienen steuern temperatur feuchte h900 fenster"},
+ {c:"12.2",p:276,t:"Arbeiten mit IntelliCuff",k:"intellicuff bedienen cuff manschette"},
+ {c:"12.2.4",p:280,t:"Cuff-Druck einstellen",k:"cuffdruck cuff druck einstellen pcuff manschettendruck"},
+ {c:"13.2",p:290,t:"Reinigung, Desinfektion und Sterilisation",k:"reinigung desinfektion sterilisation aufbereitung wischen"},
+ {c:"13.4.3",p:297,t:"Batterie austauschen",k:"batterie akku wechseln tauschen austauschen"},
+ {c:"13.4.4",p:298,t:"Galvanischen O2-Sensor austauschen",k:"o2 sensor sauerstoffzelle wechseln tauschen ersetzen austauschen"},
+ {c:"14.3.4",p:301,t:"Minimale Alarmlautstärke (Konfiguration)",k:"minimale alarmlautstärke konfiguration"},
+ {c:"14.3.6",p:302,t:"Sauerst.-Alarmgrenzwerte manuell einstellen (Konfiguration)",k:"sauerstoff o2 alarmgrenzwerte alarmgrenzen manuell konfiguration grenzen"},
+ {c:"14.6",p:303,t:"Schnelle Setups definieren",k:"schnelles setup definieren standard voreinstellung konfiguration"},
+ {c:"16.5",p:325,t:"Einstellbereiche aller Parameter (Spezifikation)",k:"einstellbereich spezifikation bereich minimum maximum parametereinstellungen tabelle"},
+ {c:"16.7",p:340,t:"Alarm-Spezifikationen",k:"alarm spezifikation bereich tabelle"}
+];
+
+/* ===== Sofort-Wissen (Kacheln) ===== */
+const TOPICS = {
+  modi: {
+    ico:"🫁", lbl:"Beatmungsmodi", sub:"Übersicht aller Modi",
+    tag:"Grundlagen", title:"Beatmungsmodi im Überblick",
+    rows:[
+      ["(S)CMV+ / APVcmv","Volumenzielorientiert, druckreguliert: Gerät passt den Inspirationsdruck atemzugweise an, um das eingestellte Vt zu erreichen."],
+      ["PCV+","Druckkontrolliert: fester Pinsp über PEEP, Vt variabel je nach Compliance/Resistance."],
+      ["SIMV+ / PSIMV+","Mandatorische Hübe (volumenziel- bzw. druckkontrolliert) plus druckunterstützte Spontanatmung dazwischen."],
+      ["SPONT","Reine Spontanatmung mit Druckunterstützung (PSV) über PEEP; Apnoe-Backup greift bei Atempause."],
+      ["ASV","Adaptive Support Ventilation: nur %MinVol, PEEP und FiO2 einstellen — Gerät wählt Vt/Frequenz nach minimaler Atemarbeit (Otis), basierend auf IBW."],
+      ["INTELLiVENT-ASV","ASV plus automatische Regelung von Ventilation (PetCO2-Ziel) und Oxygenierung (SpO2-Ziel → PEEP/FiO2); optional Quick&nbsp;Wean."],
+      ["DuoPAP / APRV","Biphasische Druckniveaus mit freier Spontanatmung auf beiden Niveaus; APRV mit langer Hoch- und kurzer Ablassphase."],
+      ["NIV / NIV-ST","Nichtinvasiv mit Leckagekompensation; ST-Variante mit Backup-Frequenz."],
+      ["HiFlow O2","Nasale High-Flow-Sauerstofftherapie direkt am Gerät."]
+    ],
+    note:"Alle Modi im Detail: Handbuch Kapitel 7 (ab Seite 123)."
+  },
+  asv: {
+    ico:"🧠", lbl:"ASV & INTELLiVENT", sub:"%MinVol, Ziele, Automatik",
+    tag:"Intelligente Modi", title:"ASV / INTELLiVENT-ASV praktisch",
+    rows:[
+      ["Basis","IBW aus Grösse + Geschlecht korrekt eingeben — davon hängt die gesamte Zielrechnung ab."],
+      ["%MinVol","100 % ≈ normale Minutenventilation. Erhöhen bei Azidose/CO2-Anstieg, senken beim Weaning. Typischer Arbeitsbereich 70–120 %."],
+      ["Sicherheitsfenster","ASV bewegt sich in einem Vt/f-Sicherheitsrahmen (lungenprotektiv, Vermeidung von AutoPEEP und Totraumventilation)."],
+      ["INTELLiVENT","Zusätzlich PetCO2- und SpO2-Zielbereiche; Automatik führt %MinVol, PEEP und FiO2 nach. Patientenbedingungen (z.&nbsp;B. ARDS, chron. Hyperkapnie) korrekt setzen."],
+      ["Quick Wean","Automatisierte Spontanatmungstests mit protokollierten Kriterien — Verlauf im Trend prüfen."],
+      ["Kontrolle","Automatik entbindet nicht von der Überwachung: Kurven, Trends, Driving Pressure und Patientenzustand regelmässig beurteilen."]
+    ],
+    note:"ASV: Handbuch Kap. 7.5.1 (S. 144) und 7.9 · INTELLiVENT: Kap. 7.5.2 (S. 146) plus die Kurzanleitung oben."
+  },
+  parameter: {
+    ico:"📊", lbl:"Monitoring", sub:"Wichtige Messwerte",
+    tag:"Monitoring", title:"Zentrale Messwerte und ihre Bedeutung",
+    rows:[
+      ["Ppeak / Pplateau","Spitzendruck vs. Plateaudruck; Differenz spricht für Resistance-Problem (Sekret, Tubus, Bronchospasmus)."],
+      ["Driving Pressure","Pplateau − PEEP; Ziel möglichst &lt;&nbsp;15&nbsp;cmH2O (lungenprotektiv)."],
+      ["AutoPEEP","Intrinsischer PEEP bei unvollständiger Exspiration — Flowkurve prüfen (Exspirationsfluss erreicht Nulllinie nicht)."],
+      ["Cstat / Rinsp","Statische Compliance und Resistance — Verlauf sagt mehr als der Einzelwert."],
+      ["RCexp","Exspiratorische Zeitkonstante; hilft bei der Einstellung der Exspirationszeit und der ASV-Logik."],
+      ["P0.1","Atemantrieb; hohe Werte = hoher Drive/Belastung, sehr niedrige = Übersedierung oder Übersupport."],
+      ["RSB / %fSpont","Rapid-Shallow-Breathing-Index und Spontanatmungsanteil — zentrale Weaning-Marker."],
+      ["ExpMinVol / PetCO2","Minutenventilation und endtidales CO2 zusammen beurteilen (Ventilation vs. Totraum)."]
+    ],
+    note:"Alle Messwert-Definitionen: Handbuch Kap. 8.6 (ab Seite 193)."
+  },
+  alarme: {
+    ico:"🔔", lbl:"Alarme", sub:"Prioritäten & Sofortcheck",
+    tag:"Sicherheit", title:"Alarm-Troubleshooting",
+    rows:[
+      ["Prioritäten","Rot = hohe Priorität (sofort handeln), Gelb = mittlere/niedrige. Alarmgrenzen patientenbezogen einstellen, nicht einfach quittieren."],
+      ["Druck hoch","Erst Patient: Husten, Sekret, Beissen, Pressen? Dann System: Knick, Filter feucht, Tubuslage. Absaugen vor Grenzerhöhung."],
+      ["ExpMinVol tief","Leckage, Diskonnektion, Erschöpfung, Sedierungstiefe, Cuffdruck prüfen."],
+      ["Apnoe","Backup-Ventilation greift automatisch; Ursache klären (Sedierung, Neurologie), Backup-Einstellungen kontrollieren."],
+      ["Diskonnektion","Sofort Patient prüfen, manuelle Beatmung bereithalten; Konnektionen systematisch vom Patienten zum Gerät abgehen."],
+      ["On-Screen-Hilfe","Im Alarmpuffer die Alarmmeldung antippen — das Gerät zeigt die Troubleshooting-Hilfe direkt am Bildschirm."],
+      ["Im Zweifel","Patient von der Maschine trennen und mit Beutel beatmen — erst Patient sichern, dann Gerät suchen."]
+    ],
+    note:"Komplette Alarm-Tabelle mit Ursache und Abhilfe: Handbuch Kap. 9.4 (ab Seite 215)."
+  },
+  weaning: {
+    ico:"🪜", lbl:"Weaning", sub:"Kriterien & SBT",
+    tag:"Entwöhnung", title:"Weaning am C6",
+    rows:[
+      ["Voraussetzungen","Grundproblem gebessert, hämodynamisch stabil, FiO2 ≤ 0,4–0,5, PEEP ≤ 5–8, wach genug, Hustenstoss vorhanden."],
+      ["Screening-Werte","RSB &lt; 105, P0.1 nicht massiv erhöht, %fSpont steigend, PS-Bedarf sinkend."],
+      ["SBT","Spontanatmungsversuch z.&nbsp;B. in SPONT mit niedriger PS (5–8 cmH2O) über 30–120 min; Abbruchkriterien vorher festlegen."],
+      ["In ASV","%MinVol schrittweise senken; ASV reduziert Support automatisch, wenn der Patient übernimmt."],
+      ["Quick Wean","INTELLiVENT-Option: automatisierte SBTs mit Protokoll — Ergebnisse in der Visite besprechen."],
+      ["Nach Extubation","NIV oder HiFlow O2 direkt am C6 als Anschlusstherapie möglich."]
+    ],
+    note:"Weaning-Protokolle sind hausabhängig — Zahlen hier sind übliche Richtwerte, kein Ersatz für den lokalen Standard. Weaning mit ASV: Handbuch Kap. 7.9.5 (Seite 164)."
+  },
+  niv: {
+    ico:"😮‍💨", lbl:"NIV & HiFlow", sub:"Nichtinvasiv am C6",
+    tag:"Nichtinvasiv", title:"NIV und High-Flow",
+    rows:[
+      ["Leckage","NIV-Modi kompensieren Leckagen; trotzdem Maskensitz optimieren — grosse Leckagen stören Triggerung und Monitoring."],
+      ["Einstellungen","PS/Pinsp über PEEP moderat beginnen, PEEP nach Oxygenierung; Rampe und Exspirations-Trigger (ETS) an Leckage anpassen."],
+      ["ST-Backup","NIV-ST mit Backup-Frequenz für Patienten mit instabilem Atemantrieb."],
+      ["Erfolgskontrolle","Nach 1–2 h: BGA, Atemfrequenz, Vigilanz, Komfort. Keine Besserung → Intubation nicht verschleppen."],
+      ["HiFlow O2","Flow und FiO2 getrennt einstellbar; Auswaschung des Totraums, gute Toleranz — für milde Hypoxämie und nach Extubation. Immer aktive Befeuchtung verwenden."]
+    ],
+    note:"NIV im Detail: Handbuch Kap. 7.8 (ab Seite 155) · HiFlow: Kap. 7.6.4 (ab Seite 152)."
+  },
+  tools: {
+    ico:"🛠️", lbl:"Spezialfunktionen", sub:"P/V-Tool, IntelliSync+",
+    tag:"Werkzeuge", title:"Spezialfunktionen des C6",
+    rows:[
+      ["P/V Tool Pro","Quasi-statische Druck-Volumen-Manöver: Beurteilung der Rekrutierbarkeit und kontrollierte Rekrutierungsmanöver — nur mit ärztlicher Anordnung. Nicht am aktiv atmenden Patienten."],
+      ["Transpulmonaler Druck","Mit Ösophagusdrucksonde am Pes-Port: echte Lungendehnung getrennt von der Thoraxwand beurteilen."],
+      ["IntelliSync+","Atemzugweise Echtzeit-Analyse der Kurven für bessere Trigger-Synchronisation (Option)."],
+      ["Vernebler","Pneumatisch oder Aerogen, synchronisiert mit der Inspiration; pneumatisch nicht bei Neonaten und HiFlow."],
+      ["Standby & Transport","Standby für Unterbrechungen nutzen statt Gerät aus; Akkulaufzeit vor innerklinischem Transport prüfen (System > Info 1)."]
+    ],
+    note:"P/V Tool: Handbuch Kap. 11 (ab Seite 253) · Verfügbarkeit einzelner Optionen hängt von der Geräteausstattung eures Hauses ab."
+  }
+};
+
+const FRAGEN = {
+  modi:[["Modus wechseln und bestätigen","modus wählen wechseln"],["Apnoe-Backup einstellen","apnoe backup"],["Neuen Patienten anlegen (IBW)","patientendaten grösse geschlecht eingeben"],["Trigger, Rampe und ETS einstellen","trigger empfindlichkeit"],["Absaug-Manöver nutzen","absaugen absaugmanöver"]],
+  asv:[["PetCO2- und SpO2-Ziele einstellen","intellivent ziele"],["Quick Wean und SBT-Ergebnisse","weaning asv"],["ASV einrichten (%MinVol)","asv einrichten minvol"],["ASV-Zielgrafik lesen","asv zielgrafik"]],
+  parameter:[["Trend-Ansicht und Zeitraum","trend zeitraum"],["Zusätzliche Parameter einblenden (MMP)","mmp parameter einblenden"],["Dynamic Lung verstehen","dynamic lung"],["Flow- und CO2-Sensor kalibrieren","flowsensor kalibrieren"],["AutoPEEP und Driving Pressure ablesen","autopeep messwerte hold"]],
+  alarme:[["Alarmgrenzen für Sauerstoff (FiO2)","sauerstoff o2 alarmgrenzen"],["Alarmpuffer öffnen und quittieren","alarmpuffer reagieren"],["Alarmlautstärke einstellen","alarmlautstärke"],["Grenzen für Druck, MinVol, Frequenz","alarmgrenzen einstellen"],["Alarm 'Flow-Sensor prüfen' beheben","alarm troubleshooting flow sensor"]],
+  weaning:[["PS und ETS für SBT einstellen","einstellparameter psupport"],["Weaning mit ASV","weaning asv minvol"],["Vent-Status-Panel nutzen","vent status"],["Nach Extubation auf HiFlow wechseln","hiflow starten"]],
+  niv:[["HiFlow starten, Flow und FiO2","hiflow flow fio2"],["Leckage-Anzeige in der NIV","niv leckage"],["Auf NIV wechseln","niv einstellungen wechsel"]],
+  tools:[["P/V-Tool-Manöver Schritt für Schritt","pv tool manöver"],["Vernebler aktivieren","vernebler bedienen"],["Ösophagusdruck einrichten","ösophagus pes einrichten"],["IntelliCuff und Cuffdruck","cuffdruck intellicuff"],["Event-Log auf USB kopieren","event log usb"]]
+};
+
+/* ===== UI ===== */
+const tilesEl=document.getElementById("tiles"), contentEl=document.getElementById("content"),
+      resEl=document.getElementById("results");
+let current=null;
+
+Object.entries(TOPICS).forEach(([key,t])=>{
+  const b=document.createElement("button");
+  b.className="tile"; b.dataset.key=key;
+  b.innerHTML=`<span class="ico">${t.ico}</span><span class="lbl">${t.lbl}</span><span class="sub">${t.sub}</span>`;
+  b.onclick=()=>show(key);
+  tilesEl.appendChild(b);
+});
+
+function show(key){
+  current=key;
+  document.querySelectorAll(".tile").forEach(x=>x.classList.toggle("on",x.dataset.key===key));
+  const t=TOPICS[key];
+  contentEl.innerHTML=`
+    <span class="tag">${t.tag}</span>
+    <h3>${t.title}</h3>
+    <div class="rows">${t.rows.map(r=>`<div class="row"><span class="k">${r[0]}</span><span class="v">${r[1]}</span></div>`).join("")}</div>
+    <div class="note">${t.note}</div>
+    <div class="chips">
+      <h4>Bedienungsfragen — antippen, Antwort sofort</h4>
+      ${(FRAGEN[key]||[]).map(f=>`<button class="chip" onclick="chipSearch('${f[1]}')">${f[0]}</button>`).join("")}
+    </div>`;
+}
+
+function chipSearch(q){
+  document.getElementById("q").value=q;
+  runSearch(q);
+}
+
+/* ===== Lokale Suche ===== */
+const STOP=new Set(["wie","wo","wann","was","ich","am","an","auf","in","im","den","die","das","der","des","dem","ein","eine","einen","für","mit","und","oder","beim","bei","zum","zur","ist","es","um","genau","kann","hamilton","c6","gerät","geraet","stelle","finde","werden","wird"]);
+function tokens(q){
+  return q.toLowerCase().replace(/[^a-zäöüß0-9%]+/g," ").split(" ")
+    .filter(w=>w.length>2 && !STOP.has(w));
+}
+function score(hay,tk){
+  let s=0;
+  for(const t of tk){ if(hay.includes(t)) s+=2; else if(t.length>4 && hay.includes(t.slice(0,-1))) s+=1; }
+  return s;
+}
+function runSearch(q){
+  const tk=tokens(q);
+  window.scrollTo({top:0,behavior:"smooth"});
+  if(!tk.length){ resEl.innerHTML='<div class="noresult">Bitte ein Stichwort eingeben, z. B. «Alarmgrenzen» oder «Trend».</div>'; resEl.classList.add("show"); return; }
+
+  const reg=REG.map(e=>({e,s:score((e.t+" "+e.en+" "+e.k+" "+e.c).toLowerCase(),tk)}))
+               .filter(x=>x.s>0).sort((a,b)=>b.s-a.s).slice(0,6);
+
+  const wissen=[];
+  Object.values(TOPICS).forEach(t=>{
+    t.rows.forEach(r=>{
+      const s=score((r[0]+" "+r[1]).toLowerCase(),tk);
+      if(s>0) wissen.push({t:r[0],v:r[1],topic:t.title,s});
+    });
+  });
+  wissen.sort((a,b)=>b.s-a.s);
+  const w3=wissen.slice(0,3);
+
+  let html="";
+  if(w3.length){
+    html+='<div class="rgroup"><h3>Sofort-Wissen</h3>'+
+      w3.map(h=>`<div class="hit"><div class="t">${h.t} <small style="color:var(--faint);font-weight:400">· ${h.topic}</small></div><div class="s">${h.v}</div></div>`).join("")+"</div>";
+  }
+  if(reg.length){
+    html+='<div class="rgroup"><h3>Im deutschen Handbuch</h3>'+
+      reg.map(x=>{
+        const e=x.e;
+        return `<div class="hit"><div class="t">Kap. ${e.c} · ${e.t}</div>
+          <div class="s"><small style="color:var(--dim)">Deutsches Bedienungshandbuch — Seite ${e.p}</small></div>
+          ${e.h?`<div class="howto">Am Gerät: ${e.h}</div>`:""}
+          <a class="pdf" href="${MANUAL}#page=${e.p}" target="_blank" rel="noopener">📖 Kapitel im PDF öffnen (S. ${e.p})</a></div>`;
+      }).join("")+"</div>";
+  }
+  if(!html) html='<div class="noresult">Nichts gefunden — versuche ein anderes Stichwort (z. B. «Alarmgrenzen», «Trend», «Vernebler», «Kalibrieren»).</div>';
+  resEl.innerHTML=html;
+  resEl.classList.add("show");
+}
+
+document.getElementById("go").onclick=()=>{
+  const q=document.getElementById("q").value.trim();
+  if(q) runSearch(q);
+};
+document.getElementById("q").addEventListener("keydown",e=>{
+  if(e.key==="Enter"){e.preventDefault();document.getElementById("go").click();}
+});
+document.getElementById("q").addEventListener("input",e=>{
+  const q=e.target.value.trim();
+  if(q.length>=4) runSearch(q);
+  else if(!q){ resEl.classList.remove("show"); }
+});
+
+show("modi");
+</script>
+</body>
+</html>
