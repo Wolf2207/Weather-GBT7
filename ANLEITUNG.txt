@@ -1,0 +1,16 @@
+WEATHER OVERALL – INSTALLATION
+
+1. Inhalt des ZIP-Pakets entpacken.
+2. Die Dateien bei einem statischen Webhost veröffentlichen (z. B. Netlify Drop, Cloudflare Pages oder GitHub Pages).
+3. Die erzeugte HTTPS-Adresse in Safari öffnen.
+4. Entweder:
+   A) Safari > Teilen > Zum Home-Bildschirm
+   oder
+   B) Kurzbefehle > Neuer Kurzbefehl > URL > Adresse einsetzen > URLs öffnen > Zum Home-Bildschirm.
+5. icon-512.png kann als Symbol des Kurzbefehls verwendet werden.
+
+Die App funktioniert sofort mit Open-Meteo und wählt weltweit geeignete nationale Wettermodelle.
+Für Schweizer Orte wird MeteoSchweiz ICON-CH verwendet und ausgewiesen.
+Eine direkte Integration der offiziellen SRF-Meteo-API erfordert eigene OAuth-Zugangsdaten
+des SRG-SSR Developer Portals und eine geschützte Serverfunktion. Zugangsdaten gehören nicht
+in die öffentlich sichtbare HTML-Datei.
