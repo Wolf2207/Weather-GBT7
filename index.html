@@ -8,12 +8,12 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Weather Overall">
 <title>Weather Overall</title>
-<link rel="manifest" href="manifest.webmanifest?release=homescreen-final">
-<link rel="apple-touch-icon" href="icon-180.png?release=homescreen-final">
+<link rel="manifest" href="manifest.webmanifest?release=finish">
+<link rel="apple-touch-icon" href="icon-180.png?release=finish">
 <style>
 :root{--white:#fff;--muted:rgba(255,255,255,.78);--line:rgba(255,255,255,.27);--glass:rgba(5,29,43,.34);--deep:rgba(3,22,34,.48);--shadow:0 18px 48px rgba(0,0,0,.25);--r:18px}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;color:#fff;background:#123858}button,input{font:inherit;color:inherit}button{cursor:pointer}.hidden{display:none!important}
-.scene{position:fixed;inset:0;z-index:0;background:#123858 url('alpen-hintergrund.jpg?release=homescreen-final') center/cover no-repeat;overflow:hidden}.scene:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,14,25,.02),rgba(3,17,27,.10) 56%,rgba(2,12,21,.24)),linear-gradient(90deg,rgba(2,16,26,.12),transparent 45%,rgba(2,16,26,.10))}.scene.night:before{background:linear-gradient(180deg,rgba(3,7,23,.30),rgba(2,7,21,.44),rgba(1,5,17,.60))}.tint,.fx{position:absolute;inset:0;pointer-events:none;overflow:hidden}.scene.clear .tint{background:radial-gradient(circle at 73% 11%,rgba(255,220,139,.18),transparent 26%)}.scene.cloudy .tint{background:rgba(100,125,143,.08)}.scene.rain .tint{background:linear-gradient(180deg,rgba(22,61,89,.15),rgba(5,28,46,.23))}.scene.snow .tint{background:rgba(223,242,250,.11)}.scene.fog .tint{background:rgba(225,237,240,.15);backdrop-filter:blur(1.5px)}.scene.storm .tint{background:rgba(18,19,48,.27)}
+.scene{position:fixed;inset:0;z-index:0;background:#123858 url('alpen-hintergrund.jpg?release=finish') center/cover no-repeat;overflow:hidden}.scene:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,14,25,.02),rgba(3,17,27,.10) 56%,rgba(2,12,21,.24)),linear-gradient(90deg,rgba(2,16,26,.12),transparent 45%,rgba(2,16,26,.10))}.scene.night:before{background:linear-gradient(180deg,rgba(3,7,23,.30),rgba(2,7,21,.44),rgba(1,5,17,.60))}.tint,.fx{position:absolute;inset:0;pointer-events:none;overflow:hidden}.scene.clear .tint{background:radial-gradient(circle at 73% 11%,rgba(255,220,139,.18),transparent 26%)}.scene.cloudy .tint{background:rgba(100,125,143,.08)}.scene.rain .tint{background:linear-gradient(180deg,rgba(22,61,89,.15),rgba(5,28,46,.23))}.scene.snow .tint{background:rgba(223,242,250,.11)}.scene.fog .tint{background:rgba(225,237,240,.15);backdrop-filter:blur(1.5px)}.scene.storm .tint{background:rgba(18,19,48,.27)}
 .drop,.flake{position:absolute;top:-30px;animation:fall linear infinite}.drop{width:2px;height:22px;background:linear-gradient(transparent,rgba(174,226,255,.85))}.flake{font-size:17px}@keyframes fall{to{transform:translate3d(-45px,110vh,0)}}
 .app{position:relative;z-index:2;width:min(1580px,calc(100% - 18px));margin:auto;padding:max(12px,env(safe-area-inset-top)) 0 max(16px,env(safe-area-inset-bottom))}.glass{border:1px solid var(--line);background:linear-gradient(145deg,rgba(4,25,39,.38),rgba(255,255,255,.055));backdrop-filter:blur(14px) saturate(135%);-webkit-backdrop-filter:blur(14px) saturate(135%);box-shadow:var(--shadow)}
 .top{min-height:77px;border-radius:28px 28px 13px 13px;padding:10px 17px;display:grid;grid-template-columns:minmax(330px,1fr) minmax(380px,650px) auto;align-items:center;gap:15px;margin-bottom:8px}.brand small{display:block;font-size:11px;letter-spacing:1.8px;font-weight:750;color:var(--muted)}.brand h1{font-size:36px;letter-spacing:-1.5px;margin:1px 0}.version{display:inline-block;font-size:11px;padding:5px 8px;border:1px solid var(--line);border-radius:999px;vertical-align:6px;margin-left:7px}.search{display:flex;gap:7px}.searchbox{position:relative;flex:1}.search input{height:45px;width:100%;border:1px solid var(--line);border-radius:13px;background:rgba(4,25,39,.29);padding:0 15px}.btn{height:45px;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.08);padding:0 14px;font-weight:740}.btn:hover{background:rgba(255,255,255,.15)}.suggestions{position:absolute;top:50px;left:0;right:0;z-index:60;background:rgba(5,28,42,.97);border:1px solid var(--line);border-radius:13px;overflow:hidden;box-shadow:var(--shadow)}.suggestion{padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.1)}.suggestion:last-child{border:0}.suggestion small{color:var(--muted)}
@@ -57,6 +57,70 @@
   background:rgba(47,119,160,.98);
 }
 
+
+/* Finish: useful radar, editable favorites, visible weather animation */
+.glass{
+  backdrop-filter:blur(8px) saturate(128%);
+  -webkit-backdrop-filter:blur(8px) saturate(128%);
+  background:linear-gradient(145deg,rgba(4,25,39,.31),rgba(255,255,255,.045));
+}
+.fx{z-index:1}
+.app{z-index:3}
+.scene.rain .tint{background:linear-gradient(180deg,rgba(20,65,98,.12),rgba(5,25,43,.16))}
+.scene.snow .tint{background:rgba(225,244,255,.08)}
+.scene.storm .tint{background:rgba(17,18,47,.20)}
+.cloudfx{
+  position:absolute;
+  width:330px;height:95px;border-radius:999px;
+  background:rgba(255,255,255,.25);
+  filter:blur(18px);
+  animation:cloudDrift linear infinite;
+  opacity:.75;
+}
+.cloudfx:before,.cloudfx:after{
+  content:"";position:absolute;border-radius:50%;background:inherit
+}
+.cloudfx:before{width:150px;height:120px;left:42px;top:-50px}
+.cloudfx:after{width:190px;height:145px;right:36px;top:-66px}
+.cloudfx.c1{top:10%;left:-420px;animation-duration:34s}
+.cloudfx.c2{top:33%;left:-520px;transform:scale(.72);animation-duration:47s;animation-delay:-17s;opacity:.52}
+@keyframes cloudDrift{to{translate:calc(100vw + 900px) 0}}
+.drop{
+  width:3px;height:34px;
+  background:linear-gradient(transparent,rgba(174,226,255,.98));
+  filter:drop-shadow(0 0 4px rgba(95,190,255,.9));
+}
+.flake{font-size:24px;text-shadow:0 0 9px rgba(255,255,255,.95)}
+.lightning{
+  position:absolute;inset:0;background:white;opacity:0;
+  animation:visibleFlash 7s infinite;
+}
+@keyframes visibleFlash{
+  0%,86%,90%,100%{opacity:0}
+  87%{opacity:.34}88%{opacity:0}89%{opacity:.18}
+}
+.favhead,.radarhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.editbtn,.addfav{
+  border:1px solid var(--line);border-radius:10px;
+  background:rgba(255,255,255,.09);font-weight:700
+}
+.editbtn{padding:5px 9px;font-size:11px}
+.addfav{width:100%;padding:8px;margin-top:8px;font-size:11px}
+.editbtn.active{background:rgba(197,67,67,.42)}
+.fav{position:relative}
+.fav .removefav{
+  position:absolute;right:5px;top:5px;width:25px;height:25px;
+  border:1px solid rgba(255,255,255,.35);border-radius:50%;
+  background:rgba(184,45,45,.88);font-size:16px;line-height:20px;padding:0
+}
+.radar-only{grid-template-columns:1fr}
+.radarhead span{font-size:11px;color:var(--muted)}
+.radarframe{height:310px}
+@media(max-width:760px){
+  .radarhead{align-items:flex-start;flex-direction:column}
+  .radarframe{height:280px}
+}
+
 </style>
 </head>
 <body>
@@ -65,8 +129,17 @@
 <header class="top glass"><div class="brand"><small>KONSENS AUS SERIÖSEN WETTERMODELLEN</small><h1>Weather Overall <span class="version">FERTIG</span></h1></div><div class="search"><div class="searchbox"><input id="q" autocomplete="off" placeholder="Ort eingeben, z. B. Schaffhausen"><div id="suggestions" class="suggestions hidden"></div></div><button class="btn" id="go">Abrufen</button><button class="btn" id="gps">📍</button></div><button class="btn" id="places">★ Meine Orte</button></header>
 <section class="hero glass"><div><div class="locationrow"><div class="location"><h2><span id="flag">🇨🇭</span> <span id="place">Schaffhausen, Schweiz</span></h2><p id="datetime">Wetterdaten werden geladen …</p></div><button class="star" id="star">☆</button></div><div class="weatherstage"><div><div class="temp"><span id="temp">--</span>°</div><div class="condition" id="condition">Wetter wird geladen</div><div class="summary" id="summary">Bitte einen Augenblick warten.</div></div><div class="mainicon" id="icon">⛅</div></div></div><aside><div class="metrics"><div class="metric"><label>Gefühlt</label><strong id="feels">--°</strong></div><div class="metric"><label>Luftfeuchte</label><strong id="humidity">-- %</strong></div><div class="metric"><label>Wind</label><strong id="wind">-- km/h</strong></div><div class="metric"><label>Luftdruck</label><strong id="pressure">-- hPa</strong></div><div class="metric"><label>Niederschlag</label><strong id="precip">-- mm</strong></div><div class="metric"><label>UV-Index</label><strong id="uv">--</strong></div><div class="metric"><label>Sichtweite</label><strong id="visibility">-- km</strong></div><div class="metric"><label>Wolkenbedeckung</label><strong id="clouds">-- %</strong></div></div><div class="air"><div class="aqi" id="aqi">--</div><div class="airtext"><b id="airlabel">Luftqualität</b><small id="pm">PM2.5: -- µg/m³</small></div><div class="airbar"><i class="airdot" id="airdot" style="left:0%"></i></div></div></aside></section>
 <section class="hoursbox glass"><div class="head"><h3>24 Stunden</h3><div class="tabs"><button class="tab active">Stunden</button><button class="tab" id="toDays">7 Tage</button></div></div><div class="hourly" id="hourly"></div></section>
-<section class="dash"><article class="card glass" id="daysCard"><h3>7-Tage-Vorhersage</h3><div id="daily"></div></article><article class="card glass"><h3>Modellvergleich</h3><div class="models" id="models"></div><div class="consensus" id="consensus">Modellkonsens wird geladen.</div></article><article class="card glass"><h3>Sonne & Mond</h3><div class="astrogrid"><div class="astro"><small>Sonnenaufgang</small><b id="sunrise">--:--</b>🌅</div><div class="astro"><small>Sonnenuntergang</small><b id="sunset">--:--</b>🌇</div></div><div class="moon" id="moon">🌙</div><div class="daylight" id="daylight">Tageslänge</div></article><article class="card glass"><h3>Favoriten</h3><div class="favlist" id="favorites"></div></article></section>
-<section class="lower"><article class="mapcard glass"><h3>Niederschlagsradar</h3><iframe class="frame" id="radar" loading="lazy" referrerpolicy="no-referrer"></iframe></article><article class="mapcard glass"><h3>Karte</h3><iframe class="frame" id="map" loading="lazy" referrerpolicy="no-referrer"></iframe></article></section>
+<section class="dash"><article class="card glass" id="daysCard"><h3>7-Tage-Vorhersage</h3><div id="daily"></div></article><article class="card glass"><h3>Modellvergleich</h3><div class="models" id="models"></div><div class="consensus" id="consensus">Modellkonsens wird geladen.</div></article><article class="card glass"><h3>Sonne & Mond</h3><div class="astrogrid"><div class="astro"><small>Sonnenaufgang</small><b id="sunrise">--:--</b>🌅</div><div class="astro"><small>Sonnenuntergang</small><b id="sunset">--:--</b>🌇</div></div><div class="moon" id="moon">🌙</div><div class="daylight" id="daylight">Tageslänge</div></article><article class="card glass favorites-card">
+<div class="favhead"><h3>Favoriten</h3><button class="editbtn" id="editFavs">Bearbeiten</button></div>
+<div class="favlist" id="favorites"></div>
+<button class="addfav" id="addCurrent">＋ Aktuellen Ort hinzufügen</button>
+</article></section>
+<section class="lower radar-only">
+<article class="mapcard glass">
+<div class="radarhead"><h3>Niederschlagsradar</h3><span>Aktuelle Regen- und Schneezellen rund um den gewählten Ort</span></div>
+<iframe class="frame radarframe" id="radar" loading="lazy" referrerpolicy="no-referrer"></iframe>
+</article>
+</section>
 <footer class="footer glass"><span>Open-Meteo · ECMWF · ICON · GFS · OpenStreetMap · RainViewer</span><span id="updated">Noch nicht aktualisiert</span></footer>
 </main><div id="toast" class="toast hidden"></div>
 <script>
@@ -75,7 +148,7 @@ const $=id=>document.getElementById(id);const DAYS=['So','Mo','Di','Mi','Do','Fr
 const W={0:['Klar','☀️','clear'],1:['Überwiegend klar','🌤️','clear'],2:['Teilweise bewölkt','⛅','cloudy'],3:['Bedeckt','☁️','cloudy'],45:['Nebel','🌫️','fog'],48:['Reifnebel','🌫️','fog'],51:['Leichter Nieselregen','🌦️','rain'],53:['Nieselregen','🌦️','rain'],55:['Starker Nieselregen','🌧️','rain'],61:['Leichter Regen','🌦️','rain'],63:['Regen','🌧️','rain'],65:['Starker Regen','🌧️','rain'],71:['Leichter Schneefall','🌨️','snow'],73:['Schneefall','🌨️','snow'],75:['Starker Schneefall','❄️','snow'],80:['Leichte Regenschauer','🌦️','rain'],81:['Regenschauer','🌧️','rain'],82:['Starke Regenschauer','🌧️','rain'],85:['Schneeschauer','🌨️','snow'],86:['Starke Schneeschauer','❄️','snow'],95:['Gewitter','⛈️','storm'],96:['Gewitter mit Hagel','⛈️','storm'],99:['Starkes Gewitter','⛈️','storm']};
 const defaults=[{name:'Schaffhausen',admin1:'Kanton Schaffhausen',country:'Schweiz',country_code:'CH',latitude:47.6965,longitude:8.6330},{name:'Vancouver',admin1:'British Columbia',country:'Kanada',country_code:'CA',latitude:49.2497,longitude:-123.1193},{name:'Toronto',admin1:'Ontario',country:'Kanada',country_code:'CA',latitude:43.7001,longitude:-79.4163},{name:'Sydney',admin1:'New South Wales',country:'Australien',country_code:'AU',latitude:-33.8679,longitude:151.2073}];
 function readFavorites(){for(const k of ['weather-perfect-favorites','wo-final-favorites','wo-1-0-favorites','wo-v10-favorites','weatherOverallFavorites']){try{const v=JSON.parse(localStorage.getItem(k)||'null');if(Array.isArray(v)&&v.length)return v}catch{}}return defaults}
-const state={loc:null,data:null,air:null,favorites:readFavorites()};localStorage.setItem('weather-perfect-favorites',JSON.stringify(state.favorites));
+const state={loc:null,data:null,air:null,favorites:readFavorites(),editingFavorites:false};localStorage.setItem('weather-perfect-favorites',JSON.stringify(state.favorites));
 function toast(t){$('toast').textContent=t;$('toast').classList.remove('hidden');setTimeout(()=>$('toast').classList.add('hidden'),2600)}
 async function get(url){const r=await fetch(url);if(!r.ok)throw Error('HTTP '+r.status);return r.json()}
 function flag(c){return c&&c.length===2?String.fromCodePoint(...[...c.toUpperCase()].map(x=>127397+x.charCodeAt())):'🌍'}function wx(c,day=1){let x=W[c]||['Unbekannt','🌡️','cloudy'];if(!day&&[0,1].includes(c))x=[c===0?'Klar':'Überwiegend klar','🌙','clear'];return x}function time(s){return new Date(s).toLocaleTimeString('de-CH',{hour:'2-digit',minute:'2-digit'})}function wd(d){return DIR[Math.round((((d||0)%360)+360)%360/45)%8]}function key(l){return `${Number(l.latitude).toFixed(3)},${Number(l.longitude).toFixed(3)}`}
@@ -89,10 +162,38 @@ function renderHours(start){const h=state.data.hourly;$('hourly').innerHTML=h.ti
 function renderDays(){const d=state.data.daily;$('daily').innerHTML=d.time.map((t,i)=>{const x=wx(d.weather_code[i]);return `<div class="dailyrow"><b>${DAYS[new Date(t+'T12:00:00').getDay()]}</b><span style="font-size:20px">${x[1]}</span><span>${x[0]}<br><small>${Number(d.precipitation_sum[i]||0).toFixed(1)} mm · ${Math.round(d.precipitation_probability_max[i]||0)} %</small></span><b>${Math.round(d.temperature_2m_max[i])}°/${Math.round(d.temperature_2m_min[i])}°</b></div>`}).join('')}
 function renderAir(){const a=state.air?.current,q=Math.round(a?.european_aqi||0),pm=Number(a?.pm2_5||0);let lab='Sehr gut',col='#9fea67';if(q>20){lab='Gut';col='#bfe46a'}if(q>40){lab='Mäßig';col='#ffe16b'}if(q>60){lab='Schlecht';col='#ffae64'}$('aqi').textContent=q||'--';$('aqi').style.borderColor=col;$('airlabel').textContent='Luftqualität: '+lab;$('pm').textContent='PM2.5: '+pm.toFixed(1)+' µg/m³';$('airdot').style.left=Math.min(92,q)+'%'}
 function renderModels(){const labels=['ECMWF','ICON','GFS'];const vals=[];$('models').innerHTML=state.models.map((r,i)=>{if(r.status!=='fulfilled'||!r.value.current)return `<div class="model"><small>${labels[i]}</small><strong>–</strong><span>Nicht verfügbar</span></div>`;const v=r.value.current.temperature_2m;vals.push(v);return `<div class="model"><small>${labels[i]}</small><strong>${Math.round(v)}°</strong><span>${Math.round(r.value.daily.temperature_2m_max[0])}° / ${Math.round(r.value.daily.temperature_2m_min[0])}° · ${Number(r.value.daily.precipitation_sum[0]||0).toFixed(1)} mm</span></div>`}).join('');if(vals.length){const s=Math.max(...vals)-Math.min(...vals),m=vals.reduce((a,b)=>a+b,0)/vals.length;$('consensus').textContent=`Modellmittel ${m.toFixed(1)}°. Abweichung ${s.toFixed(1)}°. ${s<2?'Hoher Konsens.':'Erhöhte Unsicherheit.'}`}else $('consensus').textContent='Die Modellvergleichsdaten sind momentan nicht verfügbar.'}
-function renderFavs(){$('favorites').innerHTML=state.favorites.slice(0,4).map((f,i)=>`<button class="fav" data-i="${i}"><b>${f.name}</b><span>${flag(f.country_code)}</span></button>`).join('')||'<div class="empty">Noch keine Favoriten gespeichert.</div>';[...$('favorites').children].forEach((e,i)=>e.onclick=()=>state.favorites[i]&&load(state.favorites[i]))}
-function renderFrames(){const l=state.loc,lat=l.latitude,lon=l.longitude,d=.42;$('map').src=`https://www.openstreetmap.org/export/embed.html?bbox=${lon-d}%2C${lat-d}%2C${lon+d}%2C${lat+d}&layer=mapnik&marker=${lat}%2C${lon}`;$('radar').src=`https://www.rainviewer.com/map.html?loc=${lat},${lon},7&oFa=1&oC=1&oU=1&oCS=1&oF=1&oAP=1&c=3&o=83&lm=1&layer=radar&sm=1&sn=1`}
-function scene(type,day){const s=$('scene');s.className='scene '+type+' '+(day?'day':'night');const fx=$('fx');fx.innerHTML='';if(type==='rain'||type==='storm')for(let i=0;i<50;i++)fx.innerHTML+=`<i class="drop" style="left:${Math.random()*100}%;animation-duration:${.8+Math.random()}s;animation-delay:${-Math.random()*2}s"></i>`;if(type==='snow')for(let i=0;i<35;i++)fx.innerHTML+=`<i class="flake" style="left:${Math.random()*100}%;animation-duration:${5+Math.random()*7}s;animation-delay:${-Math.random()*8}s">❄</i>`}
+function saveFavs(){localStorage.setItem('weather-perfect-favorites',JSON.stringify(state.favorites))}
+function renderFavs(){
+  const list=state.favorites.slice(0,8);
+  $('favorites').innerHTML=list.map((f,i)=>`<button class="fav" data-i="${i}"><b>${f.name}</b><span>${flag(f.country_code)}</span>${state.editingFavorites?'<span class="removefav" aria-label="Favorit löschen">×</span>':''}</button>`).join('')||'<div class="empty">Noch keine Favoriten gespeichert.</div>';
+  [...$('favorites').querySelectorAll('.fav')].forEach((e,i)=>{
+    e.onclick=ev=>{
+      if(state.editingFavorites){
+        ev.preventDefault();
+        state.favorites.splice(i,1);saveFavs();renderFavs();toast('Favorit gelöscht');
+      }else if(state.favorites[i]) load(state.favorites[i]);
+    };
+  });
+  $('editFavs').textContent=state.editingFavorites?'Fertig':'Bearbeiten';
+  $('editFavs').classList.toggle('active',state.editingFavorites);
+}
+function renderFrames(){const l=state.loc,lat=l.latitude,lon=l.longitude;$('radar').src=`https://www.rainviewer.com/map.html?loc=${lat},${lon},7&oFa=1&oC=1&oU=1&oCS=1&oF=1&oAP=1&c=3&o=83&lm=1&layer=radar&sm=1&sn=1`}
+function scene(type,day){
+  const s=$('scene');s.className='scene '+type+' '+(day?'day':'night');
+  const fx=$('fx');fx.innerHTML='';
+  if(['cloudy','rain','snow','storm','fog'].includes(type))fx.innerHTML+='<i class="cloudfx c1"></i><i class="cloudfx c2"></i>';
+  if(type==='rain'||type==='storm')for(let i=0;i<95;i++)fx.innerHTML+=`<i class="drop" style="left:${Math.random()*100}%;animation-duration:${.55+Math.random()*.75}s;animation-delay:${-Math.random()*2}s;opacity:${.55+Math.random()*.45}"></i>`;
+  if(type==='snow')for(let i=0;i<70;i++)fx.innerHTML+=`<i class="flake" style="left:${Math.random()*100}%;animation-duration:${4+Math.random()*6}s;animation-delay:${-Math.random()*8}s;opacity:${.6+Math.random()*.4}">❄</i>`;
+  if(type==='storm')fx.innerHTML+='<i class="lightning"></i>';
+}
 let timer;$('q').oninput=()=>{clearTimeout(timer);const q=$('q').value.trim();if(q.length<2){$('suggestions').classList.add('hidden');return}timer=setTimeout(async()=>{try{const d=await geocode(q),a=d.results||[];$('suggestions').innerHTML=a.map((r,i)=>`<div class="suggestion" data-i="${i}"><b>${r.name}</b><br><small>${[r.admin1,r.country].filter(Boolean).join(', ')}</small></div>`).join('');$('suggestions').classList.toggle('hidden',!a.length);[...$('suggestions').children].forEach((e,i)=>e.onclick=()=>{$('q').value=a[i].name;$('suggestions').classList.add('hidden');load(loc(a[i]))})}catch{}},300)};$('go').onclick=async()=>{const q=$('q').value.trim();if(!q)return;try{const d=await geocode(q),r=d.results?.[0];r?load(loc(r)):toast('Ort nicht gefunden')}catch{toast('Ortssuche fehlgeschlagen')}};$('q').onkeydown=e=>{if(e.key==='Enter')$('go').click()};$('gps').onclick=()=>navigator.geolocation?navigator.geolocation.getCurrentPosition(p=>load({name:'Mein Standort',admin1:'',country:'',country_code:'',latitude:p.coords.latitude,longitude:p.coords.longitude}),()=>toast('Standort konnte nicht bestimmt werden')):toast('GPS nicht verfügbar');$('star').onclick=()=>{const k=key(state.loc),i=state.favorites.findIndex(f=>key(f)===k);if(i>=0){state.favorites.splice(i,1);toast('Favorit entfernt')}else{state.favorites.unshift(state.loc);toast('Favorit gespeichert')}localStorage.setItem('weather-perfect-favorites',JSON.stringify(state.favorites));renderFavs();$('star').textContent=i>=0?'☆':'★'};$('places').onclick=()=>document.querySelector('.card:last-child').scrollIntoView({behavior:'smooth'});$('toDays').onclick=()=>$('daysCard').scrollIntoView({behavior:'smooth'});
+$('editFavs').onclick=()=>{state.editingFavorites=!state.editingFavorites;renderFavs()};
+$('addCurrent').onclick=()=>{
+  if(!state.loc)return;
+  const i=state.favorites.findIndex(f=>key(f)===key(state.loc));
+  if(i>=0){toast('Dieser Ort ist bereits gespeichert');return}
+  state.favorites.unshift(state.loc);saveFavs();renderFavs();$('star').textContent='★';toast('Ort zu Favoriten hinzugefügt');
+};
 if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 (async()=>{let l;for(const k of ['weather-perfect-last','wo-final-last','wo-1-0-last','wo-v10-last']){try{const x=JSON.parse(localStorage.getItem(k)||'null');if(x&&Number.isFinite(x.latitude)){l=x;break}}catch{}}await load(l||defaults[0])})();
 
