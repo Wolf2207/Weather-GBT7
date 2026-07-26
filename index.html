@@ -3,295 +3,132 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#10273b">
+<meta name="theme-color" content="#12395a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Weather Overall">
-<title>Weather Overall V10</title>
-<link rel="manifest" href="manifest.webmanifest?v=10">
-<link rel="apple-touch-icon" href="icon-180.png?v=10">
+<title>Weather Overall</title>
+<link rel="manifest" href="manifest.webmanifest?final=1">
+<link rel="apple-touch-icon" href="icon-180.png?final=1">
 <link rel="preconnect" href="https://api.open-meteo.com">
 <link rel="preconnect" href="https://geocoding-api.open-meteo.com">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
 :root{
-  --text:#fff;
-  --muted:rgba(255,255,255,.76);
-  --line:rgba(255,255,255,.25);
-  --glass:rgba(10,31,47,.36);
-  --glass-strong:rgba(8,27,42,.54);
-  --glass-soft:rgba(255,255,255,.105);
-  --shadow:0 22px 64px rgba(0,0,0,.28);
-  --blue:#71c8ff;
-  --green:#9be763;
-  --amber:#ffd86c;
-  --danger:#ff8278;
-  --radius:28px;
+ --text:#fff;--muted:rgba(255,255,255,.80);--line:rgba(255,255,255,.28);
+ --glass:rgba(4,24,37,.34);--glass2:rgba(2,18,29,.46);--blue:#6fc8ff;
+ --green:#9fea67;--radius:20px;--shadow:0 16px 44px rgba(0,0,0,.27)
 }
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;color:var(--text);background:#10273b}
+html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;color:var(--text);background:#0c2538}
 body{overflow-x:hidden}
 button,input{font:inherit;color:inherit}
 button{cursor:pointer}
-button:focus-visible,input:focus-visible{outline:3px solid rgba(113,200,255,.75);outline-offset:2px}
 .hidden{display:none!important}
-
-.scene{
-  position:fixed;inset:0;z-index:0;overflow:hidden;
-  background:#10273b url("alpen-hintergrund.jpg?v=10") center/cover no-repeat;
-}
-.scene::before{
-  content:"";position:absolute;inset:0;
-  background:
-    linear-gradient(180deg,rgba(3,16,29,.05),rgba(5,18,30,.13) 52%,rgba(2,11,20,.36)),
-    linear-gradient(90deg,rgba(4,18,30,.22),transparent 44%,rgba(3,15,26,.17));
-}
-.scene.night::before{
-  background:
-    linear-gradient(180deg,rgba(5,9,29,.32),rgba(4,10,26,.44) 52%,rgba(2,6,18,.64)),
-    linear-gradient(90deg,rgba(2,7,18,.36),transparent 45%,rgba(1,6,17,.35));
-}
-.weather-tint{position:absolute;inset:0;transition:background .8s ease}
-.scene.clear .weather-tint{background:radial-gradient(circle at 75% 13%,rgba(255,219,145,.18),transparent 29%)}
-.scene.cloudy .weather-tint{background:linear-gradient(180deg,rgba(100,123,144,.14),rgba(25,52,70,.18))}
-.scene.rain .weather-tint{background:linear-gradient(180deg,rgba(14,54,83,.22),rgba(6,27,47,.34))}
-.scene.snow .weather-tint{background:linear-gradient(180deg,rgba(226,245,255,.12),rgba(154,199,225,.16))}
-.scene.fog .weather-tint{background:rgba(214,229,235,.17);backdrop-filter:blur(2px)}
-.scene.storm .weather-tint{background:linear-gradient(180deg,rgba(22,20,53,.35),rgba(8,12,31,.47))}
-
-.fx{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.cloud{position:absolute;width:260px;height:74px;border-radius:999px;background:rgba(255,255,255,.15);filter:blur(17px);animation:cloudMove 34s linear infinite}
-.cloud.c1{left:-300px;top:12%;animation-duration:38s}
-.cloud.c2{left:-400px;top:31%;width:380px;opacity:.55;animation-duration:50s;animation-delay:-14s}
-@keyframes cloudMove{to{transform:translateX(calc(100vw + 700px))}}
-.drop,.flake{position:absolute;top:-20px;animation:fall linear infinite}
-.drop{width:2px;height:24px;background:linear-gradient(transparent,rgba(164,221,255,.92))}
-.flake{font-size:18px;text-shadow:0 0 8px rgba(255,255,255,.8)}
-@keyframes fall{to{transform:translate3d(-45px,110vh,0)}}
-.flash{position:absolute;inset:0;background:white;opacity:0;animation:flash 8s infinite}
+.scene{position:fixed;inset:0;z-index:0;background:#173d5a url("alpen-hintergrund.jpg?final=1") center/cover no-repeat}
+.scene::before{content:"";position:absolute;inset:0;background:
+ linear-gradient(180deg,rgba(5,17,27,.02),rgba(4,17,27,.08) 53%,rgba(2,13,21,.18)),
+ linear-gradient(90deg,rgba(2,16,25,.12),transparent 42%,rgba(2,16,25,.10))}
+.scene.night::before{background:linear-gradient(180deg,rgba(4,8,24,.24),rgba(3,8,21,.36),rgba(2,6,18,.54))}
+.weather-tint,.fx{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.scene.clear .weather-tint{background:radial-gradient(circle at 69% 11%,rgba(255,219,139,.18),transparent 24%)}
+.scene.cloudy .weather-tint{background:rgba(84,111,132,.08)}
+.scene.rain .weather-tint{background:linear-gradient(180deg,rgba(25,64,91,.12),rgba(7,31,49,.22))}
+.scene.snow .weather-tint{background:rgba(220,240,248,.10)}
+.scene.fog .weather-tint{background:rgba(226,237,239,.13);backdrop-filter:blur(1.5px)}
+.scene.storm .weather-tint{background:rgba(18,20,49,.24)}
+.cloud{position:absolute;width:260px;height:70px;border-radius:999px;background:rgba(255,255,255,.13);filter:blur(17px);animation:cloudMove 38s linear infinite}
+.cloud.c1{left:-310px;top:11%}.cloud.c2{left:-450px;top:30%;width:400px;animation-duration:52s;animation-delay:-16s}
+@keyframes cloudMove{to{transform:translateX(calc(100vw + 760px))}}
+.drop,.flake{position:absolute;top:-20px;animation:fall linear infinite}.drop{width:2px;height:22px;background:linear-gradient(transparent,rgba(173,225,255,.86))}
+.flake{font-size:17px}@keyframes fall{to{transform:translate3d(-45px,110vh,0)}}.flash{position:absolute;inset:0;background:#fff;opacity:0;animation:flash 8s infinite}
 @keyframes flash{0%,89%,93%,100%{opacity:0}90%{opacity:.2}91%{opacity:0}92%{opacity:.12}}
 
-.app{position:relative;z-index:2;width:min(1500px,calc(100% - 34px));margin:auto;padding:max(22px,env(safe-area-inset-top)) 0 max(32px,env(safe-area-inset-bottom))}
-.glass{
-  border:1px solid var(--line);
-  background:linear-gradient(145deg,var(--glass),rgba(255,255,255,.055));
-  box-shadow:var(--shadow);
-  backdrop-filter:blur(23px) saturate(145%);
-  -webkit-backdrop-filter:blur(23px) saturate(145%);
-}
-.topbar{display:flex;align-items:center;gap:18px;padding:15px 17px;border-radius:24px;margin-bottom:17px}
-.brand{display:flex;align-items:center;gap:13px;min-width:295px}
-.brand img{width:54px;height:54px;border-radius:17px;box-shadow:0 10px 30px rgba(0,0,0,.27)}
-.brand h1{font-size:clamp(25px,3vw,44px);line-height:.95;margin:0;letter-spacing:-1.5px}
-.brand small{display:block;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted);margin-bottom:6px}
-.version{font-size:12px;font-weight:800;padding:6px 9px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.1)}
-.search{display:flex;gap:9px;flex:1;justify-content:flex-end}
-.search-wrap{position:relative;flex:1;max-width:630px}
-.search input{width:100%;height:52px;border:1px solid var(--line);background:rgba(4,20,32,.37);border-radius:17px;padding:0 18px}
-.search input::placeholder{color:rgba(255,255,255,.66)}
-.btn{height:52px;min-width:52px;border:1px solid var(--line);background:rgba(255,255,255,.10);border-radius:17px;font-weight:750;padding:0 17px}
-.btn:hover{background:rgba(255,255,255,.17)}
-.suggestions{position:absolute;top:59px;left:0;right:0;background:rgba(9,28,43,.94);border:1px solid var(--line);border-radius:17px;overflow:hidden;z-index:20;box-shadow:var(--shadow)}
-.suggestion{padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.1);cursor:pointer}
-.suggestion:hover{background:rgba(255,255,255,.12)}
-.suggestion:last-child{border-bottom:0}
+.app{position:relative;z-index:2;width:min(1600px,calc(100% - 18px));margin:auto;padding:max(14px,env(safe-area-inset-top)) 0 max(16px,env(safe-area-inset-bottom))}
+.glass{border:1px solid var(--line);background:linear-gradient(145deg,rgba(4,25,38,.38),rgba(255,255,255,.055));box-shadow:var(--shadow);backdrop-filter:blur(13px) saturate(132%);-webkit-backdrop-filter:blur(13px) saturate(132%)}
+.topbar{height:78px;border-radius:30px 30px 12px 12px;display:grid;grid-template-columns:1fr minmax(420px,650px) auto;gap:18px;align-items:center;padding:10px 18px;margin-bottom:9px}
+.brand small{display:block;font-size:11px;letter-spacing:1.7px;color:var(--muted);font-weight:700}
+.brand h1{font-size:36px;margin:1px 0 0;letter-spacing:-1.5px}.version{font-size:12px;border:1px solid var(--line);padding:5px 8px;border-radius:999px;margin-left:7px;vertical-align:6px}
+.search{display:flex;gap:8px;align-items:center}.search-wrap{position:relative;flex:1}.search input{width:100%;height:45px;border:1px solid var(--line);background:rgba(8,34,50,.28);border-radius:13px;padding:0 15px}
+.btn{height:45px;border:1px solid var(--line);background:rgba(255,255,255,.08);border-radius:13px;padding:0 15px;font-weight:750}
+.suggestions{position:absolute;top:50px;left:0;right:0;background:rgba(7,28,42,.96);border:1px solid var(--line);border-radius:14px;overflow:hidden;z-index:50}
+.suggestion{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.10)}.suggestion:last-child{border-bottom:0}
 
-.hero{border-radius:var(--radius);padding:26px;min-height:490px;display:grid;grid-template-columns:1.1fr .9fr;gap:23px;overflow:hidden;position:relative}
-.hero::after{content:"";position:absolute;width:520px;height:520px;border-radius:50%;right:-190px;top:-300px;background:radial-gradient(circle,rgba(255,230,164,.17),transparent 67%);pointer-events:none}
-.hero-main{display:flex;flex-direction:column;min-width:0}
-.location-row{display:flex;justify-content:space-between;gap:15px;align-items:flex-start}
-.country{font-size:33px;margin-right:7px}
-.location h2{margin:0;font-size:clamp(31px,4.5vw,61px);letter-spacing:-2.2px;line-height:1.03;text-shadow:0 3px 20px rgba(0,0,0,.45)}
-.location p{margin:10px 0 0;color:var(--muted);font-size:18px}
-.favorite{background:none;border:0;font-size:36px;padding:5px}
-.weather-stage{flex:1;display:grid;grid-template-columns:1fr 270px;align-items:center;gap:18px}
-.temperature{font-size:clamp(105px,14vw,205px);font-weight:280;letter-spacing:-12px;line-height:.82;text-shadow:0 8px 35px rgba(0,0,0,.34)}
-.condition{font-size:clamp(26px,3vw,43px);font-weight:760;letter-spacing:-1px;margin-top:19px}
-.summary{font-size:18px;color:var(--muted);margin-top:7px;line-height:1.55}
-.weather-icon{font-size:clamp(118px,14vw,215px);text-align:center;filter:drop-shadow(0 20px 30px rgba(0,0,0,.28));animation:float 4.7s ease-in-out infinite}
-@keyframes float{50%{transform:translateY(-10px)}}
+.hero{border-radius:16px;padding:15px 18px;display:grid;grid-template-columns:1.28fr .72fr;gap:18px;min-height:318px;margin-bottom:9px}
+.location-row{display:flex;justify-content:space-between;gap:10px}.location h2{margin:0;font-size:34px;letter-spacing:-1px}.location p{margin:7px 0 0;color:var(--muted);font-size:15px}.favorite{background:none;border:0;font-size:31px}
+.weather-stage{height:238px;display:grid;grid-template-columns:.85fr 1.15fr;align-items:center}.temperature{font-size:112px;font-weight:280;letter-spacing:-8px;line-height:.82}.condition{font-size:24px;font-weight:760;margin-top:14px}.summary{color:var(--muted);font-size:15px;margin-top:7px;line-height:1.45}
+.weather-icon{font-size:150px;text-align:center;filter:drop-shadow(0 16px 24px rgba(0,0,0,.22))}
+.metrics{height:100%;border-radius:16px;display:grid;grid-template-columns:1fr 1fr;background:rgba(2,19,30,.31);border:1px solid rgba(255,255,255,.18);overflow:hidden}
+.metric{padding:11px 13px;border-right:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15)}.metric:nth-child(even){border-right:0}.metric:nth-last-child(-n+2){border-bottom:0}
+.metric label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px}.metric strong{font-size:18px}
+.air{margin-top:9px;height:62px;border-radius:16px;padding:8px 12px;display:flex;align-items:center;gap:11px;background:rgba(2,19,30,.34);border:1px solid rgba(255,255,255,.18)}
+.aqi-ring{width:47px;height:47px;border-radius:50%;display:grid;place-items:center;border:4px solid var(--green);font-weight:800}.air-text{flex:1}.air-text b{font-size:15px}.air-text small{display:block;font-size:11px;color:var(--muted);margin-top:3px}
+.airbar{width:110px;height:7px;background:linear-gradient(90deg,#76df68,#ffe16c,#ff806f);border-radius:999px;position:relative}.airdot{position:absolute;top:-4px;width:15px;height:15px;border-radius:50%;background:#fff}
 
-.metrics{border-radius:23px;display:grid;grid-template-columns:repeat(2,1fr);overflow:hidden;background:rgba(4,20,31,.27);border:1px solid rgba(255,255,255,.18)}
-.metric{padding:16px 17px;border-right:1px solid rgba(255,255,255,.14);border-bottom:1px solid rgba(255,255,255,.14);min-height:88px}
-.metric:nth-child(even){border-right:0}.metric:nth-last-child(-n+2){border-bottom:0}
-.metric label{display:block;color:var(--muted);font-size:12px;margin-bottom:7px}
-.metric strong{font-size:20px}
-.air{margin-top:15px;border-radius:23px;padding:17px;display:flex;align-items:center;gap:15px;background:rgba(4,20,31,.29);border:1px solid rgba(255,255,255,.18)}
-.aqi-ring{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;border:5px solid var(--green);font-weight:800;font-size:18px}
-.air-text{flex:1}.air-text b{font-size:18px}.air-text small{display:block;color:var(--muted);margin-top:4px}
-.airbar{height:7px;background:linear-gradient(90deg,#76df68,#ffe16c,#ff806f);border-radius:999px;overflow:visible;position:relative}
-.airdot{position:absolute;top:-4px;width:15px;height:15px;border-radius:50%;background:white;box-shadow:0 0 0 3px rgba(0,0,0,.2)}
+.section{border-radius:16px;padding:10px 12px;margin-bottom:9px}.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}.section-head h3{font-size:16px;margin:0}.tabs{display:flex;gap:6px}.tab{font-size:12px;padding:5px 10px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.07)}.tab.active{background:rgba(43,139,201,.45)}
+.hourly{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(95px,1fr);gap:5px;overflow-x:auto;scrollbar-width:none}.hourly::-webkit-scrollbar{display:none}
+.hour{min-height:116px;border-radius:12px;padding:7px 6px;text-align:center;background:rgba(3,20,31,.26);border:1px solid rgba(255,255,255,.15)}.hour.now{background:rgba(38,136,197,.40)}
+.hour time{font-size:11px;color:var(--muted)}.hour .ico{font-size:26px;margin:7px 0 4px}.hour strong{font-size:16px}.hour small{display:block;font-size:10px;color:var(--muted);margin-top:5px;line-height:1.35}
 
-.section{margin-top:17px;border-radius:var(--radius);padding:18px}
-.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
-.section-head h3{margin:0;font-size:22px}
-.tabs{display:flex;gap:7px}.tab{border:1px solid var(--line);border-radius:999px;padding:8px 13px;background:rgba(255,255,255,.08)}.tab.active{background:rgba(64,163,225,.55)}
-.hourly{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(112px,1fr);gap:9px;overflow-x:auto;padding-bottom:5px;scrollbar-width:none}
-.hourly::-webkit-scrollbar{display:none}
-.hour{border:1px solid rgba(255,255,255,.16);background:rgba(4,21,33,.28);border-radius:19px;text-align:center;padding:13px 9px;min-height:155px}
-.hour.now{background:rgba(37,139,204,.46);box-shadow:inset 0 -3px rgba(116,206,255,.85)}
-.hour time{display:block;color:var(--muted);font-size:13px}.hour .ico{font-size:34px;margin:12px 0 7px}.hour strong{font-size:20px}.hour small{display:block;color:var(--muted);margin-top:7px;line-height:1.5}
+.dashboard{display:grid;grid-template-columns:1.2fr 1.35fr .9fr 1.2fr;gap:7px;margin-bottom:9px}.card{border-radius:14px;padding:10px;min-height:174px}.card h3{font-size:15px;margin:0 0 8px}
+.daily-row{display:grid;grid-template-columns:27px 25px 1fr 65px;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:11px}.daily-row:last-child{border-bottom:0}.daily-row small{font-size:9px;color:var(--muted)}
+.model-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}.model{border-radius:9px;padding:7px;background:rgba(3,20,31,.24);border:1px solid rgba(255,255,255,.14)}.model small{font-size:9px;color:var(--muted)}.model strong{display:block;font-size:18px;margin:4px 0}.model span{font-size:8px;color:var(--muted)}
+.astro-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px}.astro-box{border-radius:9px;padding:8px;background:rgba(3,20,31,.24);border:1px solid rgba(255,255,255,.14)}.astro-box small{font-size:9px;color:var(--muted)}.astro-box b{display:block;font-size:17px;margin:4px 0}.moon{font-size:47px;text-align:center;margin-top:8px}.astro-card #daylight{font-size:10px}
+.favorites-list{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.fav-tile{border-radius:9px;padding:7px;background:rgba(3,20,31,.24);border:1px solid rgba(255,255,255,.14);font-size:10px;min-height:70px}.fav-tile b{display:block;margin-bottom:9px}.fav-tile span{font-size:21px}
 
-.dashboard{display:grid;grid-template-columns:1.15fr .95fr .9fr;gap:17px;margin-top:17px}
-.card{border-radius:var(--radius);padding:19px;min-height:315px}
-.card h3{margin:0 0 16px;font-size:22px}
-.daily-row{display:grid;grid-template-columns:48px 42px 1fr 90px;align-items:center;gap:9px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.13)}
-.daily-row:last-child{border-bottom:0}
-.daily-row small{color:var(--muted)}
-.model-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
-.model{background:rgba(4,20,31,.27);border:1px solid rgba(255,255,255,.16);border-radius:18px;padding:14px}
-.model small{color:var(--muted)}.model strong{display:block;font-size:25px;margin:8px 0}.model span{font-size:12px;color:var(--muted)}
-.astro-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.astro-box{border-radius:18px;padding:16px;background:rgba(4,20,31,.27);border:1px solid rgba(255,255,255,.16)}
-.astro-box b{display:block;font-size:24px;margin:9px 0}.astro-box small{color:var(--muted)}
-.moon{font-size:76px;text-align:center;margin-top:25px;filter:drop-shadow(0 0 20px rgba(255,240,182,.35))}
+.lower{display:grid;grid-template-columns:1fr 1fr;gap:7px}.map-card,.radar-card{border-radius:14px;padding:9px}.map-card h3,.radar-card h3{font-size:15px;margin:0 0 6px}#map,#radar{height:220px;border-radius:10px;overflow:hidden;background:rgba(2,14,22,.35)}
+.radar-info{height:220px;border-radius:10px;display:grid;place-items:center;text-align:center;padding:20px;background:rgba(2,14,22,.30)}.radar-info .radar-emoji{font-size:55px}.radar-info p{font-size:12px;color:var(--muted)}
+.footer{margin-top:8px;border-radius:12px;padding:8px 12px;display:flex;justify-content:space-between;color:var(--muted);font-size:10px}
+.status{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:80;background:rgba(4,22,34,.95);border:1px solid var(--line);border-radius:999px;padding:10px 15px}.loading::after{content:"";display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;margin-left:8px;vertical-align:-3px}@keyframes spin{to{transform:rotate(360deg)}}
 
-.lower{display:grid;grid-template-columns:1fr 1fr;gap:17px;margin-top:17px}
-.map-card,.radar-card{border-radius:var(--radius);padding:15px;min-height:410px}
-.map-card h3,.radar-card h3{margin:2px 5px 13px;font-size:22px}
-#map,#radar{height:345px;border-radius:20px;overflow:hidden;background:rgba(1,13,22,.35)}
-.radar-info{height:345px;border-radius:20px;display:grid;place-items:center;text-align:center;padding:30px;background:
- radial-gradient(circle at center,rgba(69,161,211,.22),transparent 60%),
- rgba(1,13,22,.34)}
-.radar-info .radar-emoji{font-size:86px}.radar-info p{max-width:420px;color:var(--muted);line-height:1.6}
-.radar-info a{color:#bfe8ff;font-weight:750}
-
-.footer{margin-top:17px;border-radius:23px;padding:14px 18px;display:flex;justify-content:space-between;gap:16px;color:var(--muted);font-size:13px}
-.status{position:fixed;left:50%;bottom:25px;transform:translateX(-50%);z-index:60;background:rgba(5,21,33,.93);border:1px solid var(--line);border-radius:999px;padding:12px 18px;box-shadow:var(--shadow)}
-.loading::after{content:"";display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;margin-left:9px;vertical-align:-3px}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-@media(max-width:1100px){
-  .topbar{align-items:flex-start;flex-direction:column}.brand{min-width:0}.search{width:100%}
-  .hero{grid-template-columns:1fr}.metrics-panel{display:grid;grid-template-columns:1fr 1fr;gap:15px}.air{margin:0}
-  .dashboard{grid-template-columns:1fr 1fr}.dashboard .astro-card{grid-column:1/-1}
-}
-@media(max-width:760px){
-  .app{width:min(100% - 18px,1500px);padding-top:max(10px,env(safe-area-inset-top))}
-  .topbar,.hero,.section,.card,.map-card,.radar-card{border-radius:22px}
-  .topbar{padding:12px}.brand img{width:45px;height:45px}.brand h1{font-size:29px}
-  .search{display:grid;grid-template-columns:1fr auto auto}.search-wrap{grid-column:1/-1;max-width:none}
-  .hero{padding:18px;min-height:auto}.weather-stage{grid-template-columns:1fr 130px}.temperature{letter-spacing:-8px}.weather-icon{font-size:105px}
-  .metrics-panel{display:block}.air{margin-top:12px}.metric{padding:13px}.metric strong{font-size:17px}
-  .dashboard,.lower{grid-template-columns:1fr}.dashboard .astro-card{grid-column:auto}
-  .footer{flex-direction:column}
-  #map,#radar,.radar-info{height:310px}
-}
-@media(max-width:460px){
-  .location h2{font-size:33px}.location p{font-size:15px}.country{font-size:25px}
-  .weather-stage{grid-template-columns:1fr 90px}.temperature{font-size:96px}.weather-icon{font-size:82px}
-  .condition{font-size:27px}.summary{font-size:16px}
-  .metrics{grid-template-columns:1fr 1fr}.metric{min-height:80px}
-  .daily-row{grid-template-columns:39px 35px 1fr 72px}
-}
+@media(max-width:1100px){.topbar{grid-template-columns:1fr}.topbar{height:auto}.hero{grid-template-columns:1fr}.dashboard{grid-template-columns:1fr 1fr}.lower{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.app{width:calc(100% - 10px)}.brand h1{font-size:29px}.hero{padding:12px}.weather-stage{grid-template-columns:1fr 120px}.temperature{font-size:88px}.weather-icon{font-size:93px}.dashboard,.lower{grid-template-columns:1fr}.topbar{border-radius:20px 20px 10px 10px}.search{display:grid;grid-template-columns:1fr auto auto}.search-wrap{grid-column:1/-1}}
 </style>
 </head>
 <body>
 <div class="scene clear" id="scene"><div class="weather-tint"></div><div class="fx" id="fx"></div></div>
-
 <main class="app">
-  <header class="topbar glass">
-    <div class="brand">
-      <img src="icon-180.png?v=10" alt="">
-      <div><small>KONSENS AUS SERIÖSEN WETTERMODELLEN</small><h1>Weather Overall <span class="version">V10</span></h1></div>
-    </div>
-    <div class="search">
-      <div class="search-wrap">
-        <input id="searchInput" autocomplete="off" placeholder="Ort eingeben, z. B. Schaffhausen">
-        <div id="suggestions" class="suggestions hidden"></div>
-      </div>
-      <button class="btn" id="searchBtn">Abrufen</button>
-      <button class="btn" id="gpsBtn" title="Aktuellen Standort verwenden">📍</button>
-      <button class="btn" id="favTopBtn" title="Favoriten anzeigen">★</button>
-    </div>
-  </header>
+<header class="topbar glass">
+ <div class="brand"><small>KONSENS AUS SERIÖSEN WETTERMODELLEN</small><h1>Weather Overall <span class="version">FINAL</span></h1></div>
+ <div class="search">
+  <div class="search-wrap"><input id="searchInput" autocomplete="off" placeholder="Ort eingeben, z. B. Schaffhausen"><div id="suggestions" class="suggestions hidden"></div></div>
+  <button class="btn" id="searchBtn">Abrufen</button><button class="btn" id="gpsBtn">📍</button>
+ </div>
+ <button class="btn" id="favTopBtn">★ Meine Orte</button>
+</header>
 
-  <section class="hero glass">
-    <div class="hero-main">
-      <div class="location-row">
-        <div class="location">
-          <h2><span class="country" id="countryFlag">🇨🇭</span><span id="locationName">Schaffhausen</span></h2>
-          <p id="dateTime">Wetterdaten werden geladen …</p>
-        </div>
-        <button class="favorite" id="favoriteBtn" aria-label="Favorit umschalten">☆</button>
-      </div>
-      <div class="weather-stage">
-        <div>
-          <div class="temperature"><span id="currentTemp">--</span>°</div>
-          <div class="condition" id="condition">Wetter wird geladen</div>
-          <div class="summary" id="summary">Bitte einen Augenblick warten.</div>
-        </div>
-        <div class="weather-icon" id="mainIcon">⛅</div>
-      </div>
-    </div>
+<section class="hero glass">
+ <div class="hero-main">
+  <div class="location-row"><div class="location"><h2><span id="countryFlag">🇨🇭</span> <span id="locationName">Schaffhausen</span></h2><p id="dateTime">Wetterdaten werden geladen …</p></div><button class="favorite" id="favoriteBtn">☆</button></div>
+  <div class="weather-stage"><div><div class="temperature"><span id="currentTemp">--</span>°</div><div class="condition" id="condition">Wetter wird geladen</div><div class="summary" id="summary">Bitte einen Augenblick warten.</div></div><div class="weather-icon" id="mainIcon">⛅</div></div>
+ </div>
+ <aside><div class="metrics">
+  <div class="metric"><label>Gefühlt</label><strong id="feels">--°</strong></div><div class="metric"><label>Luftfeuchte</label><strong id="humidity">-- %</strong></div>
+  <div class="metric"><label>Wind</label><strong id="wind">-- km/h</strong></div><div class="metric"><label>Luftdruck</label><strong id="pressure">-- hPa</strong></div>
+  <div class="metric"><label>Niederschlag</label><strong id="precip">-- mm</strong></div><div class="metric"><label>UV-Index</label><strong id="uv">--</strong></div>
+  <div class="metric"><label>Sichtweite</label><strong id="visibility">-- km</strong></div><div class="metric"><label>Wolkenbedeckung</label><strong id="clouds">-- %</strong></div>
+ </div><div class="air"><div class="aqi-ring" id="aqiRing">--</div><div class="air-text"><b id="aqiLabel">Luftqualität</b><small id="pm25">PM2.5: -- µg/m³</small></div><div class="airbar"><span class="airdot" id="airDot" style="left:0%"></span></div></div></aside>
+</section>
 
-    <aside class="metrics-panel">
-      <div class="metrics">
-        <div class="metric"><label>Gefühlt</label><strong id="feels">--°</strong></div>
-        <div class="metric"><label>Luftfeuchte</label><strong id="humidity">-- %</strong></div>
-        <div class="metric"><label>Wind</label><strong id="wind">-- km/h</strong></div>
-        <div class="metric"><label>Luftdruck</label><strong id="pressure">-- hPa</strong></div>
-        <div class="metric"><label>Niederschlag</label><strong id="precip">-- mm</strong></div>
-        <div class="metric"><label>UV-Index</label><strong id="uv">--</strong></div>
-        <div class="metric"><label>Sichtweite</label><strong id="visibility">-- km</strong></div>
-        <div class="metric"><label>Wolken</label><strong id="clouds">-- %</strong></div>
-      </div>
-      <div class="air">
-        <div class="aqi-ring" id="aqiRing">--</div>
-        <div class="air-text"><b id="aqiLabel">Luftqualität</b><small id="pm25">PM2.5: -- µg/m³</small></div>
-        <div style="width:110px"><div class="airbar"><span class="airdot" id="airDot" style="left:0%"></span></div></div>
-      </div>
-    </aside>
-  </section>
+<section class="section glass"><div class="section-head"><h3>24 Stunden</h3><div class="tabs"><button class="tab active">Stunden</button><button class="tab" id="scrollDays">7 Tage</button></div></div><div class="hourly" id="hourly"></div></section>
 
-  <section class="section glass">
-    <div class="section-head"><h3>24 Stunden</h3><div class="tabs"><button class="tab active">Stunden</button><button class="tab" id="scrollDays">7 Tage</button></div></div>
-    <div class="hourly" id="hourly"></div>
-  </section>
+<section class="dashboard">
+ <article class="card glass" id="dailyCard"><h3>7-Tage-Vorhersage</h3><div id="daily"></div></article>
+ <article class="card glass"><h3>Modellvergleich</h3><div class="model-grid" id="models"><div class="model"><small>ECMWF</small><strong>--°</strong><span>Lädt …</span></div><div class="model"><small>ICON</small><strong>--°</strong><span>Lädt …</span></div><div class="model"><small>GFS</small><strong>--°</strong><span>Lädt …</span></div></div><div id="consensus" style="font-size:10px;color:var(--muted);margin-top:8px">Der Modellkonsens wird berechnet.</div></article>
+ <article class="card glass astro-card"><h3>Sonne & Mond</h3><div class="astro-grid"><div class="astro-box"><small>Sonnenaufgang</small><b id="sunrise">--:--</b><span>🌅</span></div><div class="astro-box"><small>Sonnenuntergang</small><b id="sunset">--:--</b><span>🌇</span></div></div><div class="moon" id="moon">🌙</div><div id="daylight" style="text-align:center;color:var(--muted)">Tageslänge wird berechnet</div></article>
+ <article class="card glass"><h3>Favoriten</h3><div class="favorites-list" id="favoritesPreview"></div></article>
+</section>
 
-  <section class="dashboard">
-    <article class="card glass" id="dailyCard">
-      <h3>7-Tage-Vorhersage</h3><div id="daily"></div>
-    </article>
-    <article class="card glass">
-      <h3>Modellvergleich</h3>
-      <div class="model-grid" id="models">
-        <div class="model"><small>ECMWF</small><strong>--°</strong><span>Lädt …</span></div>
-        <div class="model"><small>ICON</small><strong>--°</strong><span>Lädt …</span></div>
-        <div class="model"><small>GFS</small><strong>--°</strong><span>Lädt …</span></div>
-      </div>
-      <div style="margin-top:19px;color:var(--muted);line-height:1.6;font-size:14px" id="consensus">Der Modellkonsens wird berechnet.</div>
-    </article>
-    <article class="card glass astro-card">
-      <h3>Sonne & Mond</h3>
-      <div class="astro-grid">
-        <div class="astro-box"><small>Sonnenaufgang</small><b id="sunrise">--:--</b><span>🌅</span></div>
-        <div class="astro-box"><small>Sonnenuntergang</small><b id="sunset">--:--</b><span>🌇</span></div>
-      </div>
-      <div class="moon" id="moon">🌙</div>
-      <div style="text-align:center;color:var(--muted)" id="daylight">Tageslänge wird berechnet</div>
-    </article>
-  </section>
-
-  <section class="lower">
-    <article class="map-card glass"><h3>Karte</h3><div id="map"></div></article>
-    <article class="radar-card glass"><h3>Niederschlagsradar</h3><div id="radar"></div></article>
-  </section>
-
-  <footer class="footer glass">
-    <span>Wetterdaten: Open-Meteo · Modelle: ECMWF, ICON und GFS · Radar: RainViewer</span>
-    <span id="updated">Noch nicht aktualisiert</span>
-  </footer>
+<section class="lower"><article class="radar-card glass"><h3>Wetterradar</h3><div id="radar"></div></article><article class="map-card glass"><h3>Karte</h3><div id="map"></div></article></section>
+<footer class="footer glass"><span>Open-Meteo · ECMWF · ICON · GFS · RainViewer</span><span id="updated">Noch nicht aktualisiert</span></footer>
 </main>
-
 <div id="status" class="status hidden"></div>
-
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 "use strict";
 
 const $ = id => document.getElementById(id);
-const state = {loc:null,data:null,air:null,map:null,radarLayer:null,models:[],favorites:JSON.parse(localStorage.getItem("wo-v10-favorites")||"[]")};
+const state = {loc:null,data:null,air:null,map:null,radarLayer:null,models:[],favorites:JSON.parse(localStorage.getItem("wo-final-favorites")||"[]")};
 const WMO = {
   0:["Klar","☀️","clear"],1:["Überwiegend klar","🌤️","clear"],2:["Teilweise bewölkt","⛅","cloudy"],3:["Bedeckt","☁️","cloudy"],
   45:["Nebel","🌫️","fog"],48:["Reifnebel","🌫️","fog"],51:["Leichter Nieselregen","🌦️","rain"],53:["Nieselregen","🌦️","rain"],55:["Starker Nieselregen","🌧️","rain"],
@@ -364,7 +201,7 @@ async function loadLocation(loc){
       ])
     ]);
     state.data=data;state.air=air;state.models=models;
-    localStorage.setItem("wo-v10-last",JSON.stringify(loc));
+    localStorage.setItem("wo-final-last",JSON.stringify(loc));
     render();
     status("Wetter aktualisiert");
   }catch(e){
@@ -506,7 +343,7 @@ function renderFavorite(){
 $("favoriteBtn").onclick=()=>{
   if(!state.loc)return;const key=favoriteKey(state.loc),i=state.favorites.findIndex(f=>favoriteKey(f)===key);
   if(i>=0){state.favorites.splice(i,1);status("Favorit entfernt")}else{state.favorites.push(state.loc);status("Favorit gespeichert")}
-  localStorage.setItem("wo-v10-favorites",JSON.stringify(state.favorites));renderFavorite();
+  localStorage.setItem("wo-final-favorites",JSON.stringify(state.favorites));renderFavorite();
 };
 $("favTopBtn").onclick=()=>{
   if(!state.favorites.length){status("Noch keine Favoriten gespeichert");return}
@@ -518,8 +355,23 @@ $("scrollDays").onclick=()=>$("dailyCard").scrollIntoView({behavior:"smooth",blo
 if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
 
 (async()=>{
-  const last=JSON.parse(localStorage.getItem("wo-v10-last")||"null");
+  const last=JSON.parse(localStorage.getItem("wo-final-last")||"null");
   await loadLocation(last||{name:"Schaffhausen",admin1:"Kanton Schaffhausen",country:"Schweiz",country_code:"CH",latitude:47.6965,longitude:8.6330,timezone:"Europe/Zurich"});
+})();
+
+</script>
+<script>
+(function(){
+ const oldRenderFavorite=renderFavorite;
+ renderFavorite=function(){
+   oldRenderFavorite();
+   const box=document.getElementById("favoritesPreview");
+   if(!box)return;
+   const list=state.favorites.slice(0,4);
+   if(!list.length){box.innerHTML='<div style="font-size:11px;color:var(--muted)">Noch keine Favoriten gespeichert</div>';return}
+   box.innerHTML=list.map(f=>`<button class="fav-tile" data-key="${favoriteKey(f)}"><b>${f.name}</b><span>📍</span></button>`).join("");
+   [...box.children].forEach((el,i)=>el.onclick=()=>loadLocation(list[i]));
+ }
 })();
 </script>
 </body>
