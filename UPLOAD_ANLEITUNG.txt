@@ -1,19 +1,16 @@
-WEATHER OVERALL – FINALE VERSION
+WEATHER OVERALL 2.0 – GITHUB-UPLOAD
 
-Repository: Weather-GBT7
+Behoben:
+- Die Stundenleiste beginnt mit „Jetzt“ und setzt danach mit der nächsten vollen Stunde fort.
+- Die 7-Tage-Vorhersage beginnt immer mit morgen und zeigt sieben vollständige Folgetage.
+- Der Bild- und Animationshintergrund wurde entfernt und durch ruhige, wetterabhängige Farbverläufe ersetzt.
+- Cache-Version aktualisiert, damit alte Dateien nicht weiter angezeigt werden.
+- App-Symbole für Homescreen/PWA sind vollständig enthalten.
 
-Diese sechs Dateien hochladen und ersetzen:
-index.html
-alpen-hintergrund.jpg
-icon-180.png
-icon-512.png
-manifest.webmanifest
-sw.js
+GitHub:
+1. Den Inhalt dieser ZIP entpacken.
+2. Alle sechs Dateien in das bestehende Repository hochladen und die alten Dateien ersetzen.
+3. Änderungen committen.
+4. Die GitHub-Pages-Seite einmal neu laden. Falls noch die alte Version erscheint, Safari schließen und erneut öffnen.
 
-Danach Commit changes.
-
-Direkt öffnen:
-https://wolf2207.github.io/Weather-GBT7/?final=1
-
-Erkennung:
-Neben Weather Overall steht FINAL.
+Wichtig: Nicht die ZIP selbst als einzelne Datei ins Repository legen, sondern deren entpackten Inhalt.
